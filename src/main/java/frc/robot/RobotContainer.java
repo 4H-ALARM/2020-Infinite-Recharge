@@ -10,8 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ShooterOff;
+import frc.robot.commands.ShooterOn;
 import frc.robot.subsystems.ColorWheelSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,6 +24,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import com.analog.adis16448.frc.ADIS16448_IMU ;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import static frc.robot.Constants.*;
 
@@ -50,8 +58,18 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final DriveCommand driveCommand;
+
+  private final ShooterOn shooterOnCommand;
+
+  private final ShooterOff shooterOffCommand;
   
   private final XboxController xboxController = new XboxController(k_xboxController);
+
+
+  // make camera and compressor public parts of the robtot to be run from 
+  // the robot class rather than a seperate subsystem
+  public final Compressor m_compressor = new Compressor();
+  // public static ADIS16448_IMU m_imu = new ADIS16448_IMU();
 
 
 
@@ -63,9 +81,14 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_colorWheelSubsystem.register();
+    m_shooterSubsystem.register();
 
     driveCommand = new DriveCommand(m_driveSubsystem, () -> xboxController.getY(Hand.kLeft), () -> xboxController.getY(Hand.kRight));
     m_driveSubsystem.setDefaultCommand(driveCommand);
+
+    shooterOffCommand = new ShooterOff(m_shooterSubsystem); 
+    shooterOnCommand = new ShooterOn(m_shooterSubsystem);
+    m_shooterSubsystem.setDefaultCommand(shooterOffCommand); 
   }
 
   /**
@@ -75,6 +98,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    final Button a = new JoystickButton(xboxController, XboxController.Button.kA.value);
+    final Button b = new JoystickButton(xboxController, XboxController.Button.kB.value);
+
+    a.whenPressed(new ShooterOn(m_shooterSubsystem));
+    b.whenPressed(new ShooterOff(m_shooterSubsystem));
   }
 
 

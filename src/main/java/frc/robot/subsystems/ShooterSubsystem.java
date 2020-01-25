@@ -10,12 +10,18 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import static frc.robot.Constants.*;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final WPI_TalonSRX ShooterMotor = new WPI_TalonSRX(k_ShooterMotorAddress);
+  private final WPI_VictorSPX m_shooterMotor = new WPI_VictorSPX(k_ShooterMotorAddress);
   private final Encoder m_encoder = new Encoder(k_encoder1Ch1DIO, k_encoder1Ch2DIO);
+  private final WPI_VictorSPX m_shooterGate = new WPI_VictorSPX(k_ShooterInAddress);
+  private final DigitalInput m_ballTopDetector = new DigitalInput(k_BallTopDetector);
+
+  private boolean m_ballDetected = false;
+
   /**
    * Creates a new ShooterSubsystem.
    */
@@ -27,6 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_ballDetected = m_ballTopDetector.get();
   }
 
   public void init() {
@@ -34,5 +41,9 @@ public class ShooterSubsystem extends SubsystemBase {
     m_encoder.setMinRate(k_minRate);
     m_encoder.reset();
 }
+
+  public void setShooterSpeed(final double Speed){
+    m_shooterMotor.set(Speed);
+  }
 
 }

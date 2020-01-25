@@ -8,12 +8,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import static frc.robot.Constants.*;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final WPI_TalonSRX ballIntakeMotor = new WPI_TalonSRX(k_ballIntakeMotorAddress);
+  private final WPI_VictorSPX ballIntakeMotor = new WPI_VictorSPX(k_ballIntakeMotorAddress);
+  private final DoubleSolenoid ColorWheelDeploy = new DoubleSolenoid(k_intakeDeploy, k_intakeRetract);
   private double motorSpeed;
 
   /**

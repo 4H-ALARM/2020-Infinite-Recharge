@@ -8,8 +8,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import com.ctre.phoenix.motorcontrol.can.*;
+
+import static frc.robot.Constants.*;
 
 public class LiftSubsystem extends SubsystemBase {
+  private final DoubleSolenoid m_gearShift = new DoubleSolenoid(k_shiftUp, k_shiftDown);
+  private final DoubleSolenoid m_winchLock = new DoubleSolenoid(k_winchLock, k_winchUnlock);
+  private final WPI_VictorSPX m_liftMotor = new WPI_VictorSPX(k_liftMotorAddress);
   /**
    * Creates a new LiftSubsystem.
    */

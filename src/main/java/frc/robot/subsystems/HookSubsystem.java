@@ -8,13 +8,21 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
+import com.ctre.phoenix.motorcontrol.can.*;
+
+import static frc.robot.Constants.*;
 
 public class HookSubsystem extends SubsystemBase {
+  private final WPI_VictorSPX m_hookMotor = new WPI_VictorSPX(k_hookMotorAddress);
+  private final  ADXRS450_Gyro  m_gyro = new ADXRS450_Gyro(k_gyroPort);
   /**
    * Creates a new HookSubsystem.
    */
   public HookSubsystem() {
-
+    // init gyro
+    m_gyro.calibrate();
   }
 
   @Override

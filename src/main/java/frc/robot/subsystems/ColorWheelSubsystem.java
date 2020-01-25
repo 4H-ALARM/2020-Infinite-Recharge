@@ -20,8 +20,8 @@ import com.revrobotics.ColorSensorV3;
 import static frc.robot.Constants.*;
 
 public class ColorWheelSubsystem extends SubsystemBase {
-  private final WPI_VictorSPX ColorWheelMotor = new WPI_VictorSPX(k_ColorWheelSPXAddress);
-  private final DoubleSolenoid ColorWheelDeploy = new DoubleSolenoid(k_wheelDeploy, k_wheelRetract);
+  private final WPI_VictorSPX m_colorWheelMotor = new WPI_VictorSPX(k_ColorWheelMotorAddress);
+  private final DoubleSolenoid m_colorWheelDeploy = new DoubleSolenoid(k_colorWheelDeploy, k_colorWheelRetract);
 
   private final ColorSensorV3 colorSensor = new ColorSensorV3(k_colorSensorPort);
   private final ColorMatch colorMatcher = new ColorMatch();

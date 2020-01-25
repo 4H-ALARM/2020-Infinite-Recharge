@@ -11,6 +11,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Mat;
+
 import static frc.robot.Constants.*;
 
 /**
@@ -20,6 +27,7 @@ import static frc.robot.Constants.*;
  * project.
  */
 public class Robot extends TimedRobot {
+  
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -34,6 +42,26 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
      // initialize subsystems are done inside subsystem on creation from the container
+
+     // ----------Set up Camera HD3000----------2 options//
+     CameraServer.getInstance().startAutomaticCapture();
+      //   new Thread(() -> {
+      //     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+      //     camera.setResolution(1280, 960);
+      //     CvSink cvSink = CameraServer.getInstance().getVideo();
+      //     CvSource outputStream = CameraServer.getInstance().putVideo("Camera Test", 640, 480);
+
+      //     Mat source = new Mat();
+      //     Mat output = new Mat();
+
+      //     while (!Thread.interrupted()) {
+      //         if (cvSink.grabFrame(source) == 0) {
+      //             continue;
+      //         }
+      //         Imgproc.cvtColor(source, output, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C);
+      //         outputStream.putFrame(output);
+      //     }
+      // }).start();
    
   }
 
