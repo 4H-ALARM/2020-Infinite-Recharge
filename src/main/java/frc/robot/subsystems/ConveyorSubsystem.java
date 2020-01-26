@@ -29,4 +29,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+  public void convayorSpeed(double speed) {
+    BallConveryor.set(speed);
+  }
 }

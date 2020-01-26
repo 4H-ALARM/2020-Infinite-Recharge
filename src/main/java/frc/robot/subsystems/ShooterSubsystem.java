@@ -34,6 +34,10 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     m_ballDetected = m_ballTopDetector.get();
+    System.out.print("encoder ");
+    System.out.println(m_encoder.get());
+    System.out.print("ballTopDetector ");
+    System.out.println(m_ballDetected);
   }
 
   public void init() {

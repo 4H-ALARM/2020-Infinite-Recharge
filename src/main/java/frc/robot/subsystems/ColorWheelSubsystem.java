@@ -21,7 +21,7 @@ import static frc.robot.Constants.*;
 
 public class ColorWheelSubsystem extends SubsystemBase {
   private final WPI_VictorSPX m_colorWheelMotor = new WPI_VictorSPX(k_ColorWheelMotorAddress);
-  private final DoubleSolenoid m_colorWheelDeploy = new DoubleSolenoid(k_colorWheelDeploy, k_colorWheelRetract);
+  private final Solenoid m_colorWheelDeploy = new Solenoid(k_colorWheelDeploy);
 
   private final ColorSensorV3 colorSensor = new ColorSensorV3(k_colorSensorPort);
   private final ColorMatch colorMatcher = new ColorMatch();
@@ -49,16 +49,22 @@ public class ColorWheelSubsystem extends SubsystemBase {
     
     matchResult = colorMatcher.matchClosestColor(colorSensor.getColor());
 
-    if (matchResult.color == blueTargetColor) {
-      System.out.println("Blue");
-    } else if (matchResult.color == redTargetColor) {
-      System.out.println("Red");
-    } else if (matchResult.color == greenTargetColor) {
-      System.out.println("Green");
-    } else if (matchResult.color == yellowTargetColor) {
-      System.out.println("Yellow");
-    } else {
-      System.out.println("Unknown");
+  //   if (matchResult.color == blueTargetColor) {
+  //     System.out.println("Blue");
+  //   } else if (matchResult.color == redTargetColor) {
+  //     System.out.println("Red");
+  //   } else if (matchResult.color == greenTargetColor) {
+  //     System.out.println("Green");
+  //   } else if (matchResult.color == yellowTargetColor) {
+  //     System.out.println("Yellow");
+  //   } else {
+  //     System.out.println("Unknown");
+  //   }
     }
-  }
+    public void SetSpeed(double speed){
+      m_colorWheelMotor.set(speed);
+    }
+    public void colorWheelDeploy(boolean out){
+      colorWheelDeploy(out);
+    }
 }

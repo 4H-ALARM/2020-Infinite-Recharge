@@ -8,14 +8,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import static frc.robot.Constants.*;
 
 public class IntakeSubsystem extends SubsystemBase {
   private final WPI_VictorSPX ballIntakeMotor = new WPI_VictorSPX(k_ballIntakeMotorAddress);
-  private final DoubleSolenoid ColorWheelDeploy = new DoubleSolenoid(k_intakeDeploy, k_intakeRetract);
+  private final Solenoid IntakeDeploy = new Solenoid(k_intakeDeploy);
   private double motorSpeed;
 
   /**
@@ -32,5 +32,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setSpeed(final double ballSpeed) {
     ballIntakeMotor.set(ballSpeed);
+  }
+  public void deploy(){
+    IntakeDeploy.set(true);
   }
 }

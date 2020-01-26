@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -36,13 +37,16 @@ public final class Constants {
     public static final int k_BallTopDetector = 0;    
     public static final int k_encoder1Ch1DIO = 1;
     public static final int k_encoder1Ch2DIO = 2;
-    public static final int k_motorStopSwitchDIO = 3;
+    public static final int k_topDetector = 3;
+    public static final int k_bottomDetector = 4;
+    
 
     // SPIO addresses
     public static final SPI.Port k_gyroPort = SPI.Port.kOnboardCS0;
 
     // USB addresses
     public static final int k_xboxController = 0;
+    public static final int k_boxController = 1;
 
     // other constants
     public static final int k_pulsePerRev = 20;
@@ -59,6 +63,21 @@ public final class Constants {
 
     public static final I2C.Port k_colorSensorPort = I2C.Port.kOnboard;
 
-  
+    // shooter constants
+    public static final double k_shooterFreeRPS = 38000;
+    public static final double k_shooterTargetRPS = 100000;
+    public static final double k_shooterToleranceRPS = 1000;
+    public static final double kP = 1;
+    public static final double kI = 0.2;
+    public static final double kD = 0;   
+    public static final double k_sVolts = 0.05;
+    public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;
+    
+    public static final double k_feederSpeed = 0.5;
+    public static final int kEncoderCPR = 1024;
+
+    public static final double k_encoderDistancePerPulse =
+    // Distance units will be rotations
+    1.0 / (double) kEncoderCPR;
 
 }

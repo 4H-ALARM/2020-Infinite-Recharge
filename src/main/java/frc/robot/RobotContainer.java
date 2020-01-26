@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Controller;
+import frc.robot.commands.ConveyorIn;
+import frc.robot.commands.ConveyorOut;
+import frc.robot.commands.ConveyorStop;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ShooterOff;
@@ -22,13 +26,16 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.HookSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.ShooterPidSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.analog.adis16448.frc.ADIS16448_IMU ;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.IntakeOn;
+import frc.robot.commands.IntakeOff;
+import edu.wpi.first.wpilibj.Joystick;
 
 import static frc.robot.Constants.*;
 
@@ -46,33 +53,24 @@ public class RobotContainer {
 
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ConveyorSubsystem m_conveyourSubsystem = new ConveyorSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final ShooterPidSubsystem m_shooterpid = new ShooterPidSubsystem();
+  // private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
   private final HookSubsystem m_hookSubsystem = new HookSubsystem(); 
   private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
  
   private final ColorWheelSubsystem m_colorWheelSubsystem = new ColorWheelSubsystem();
-
-
   // and commands are defined here...
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
   private final DriveCommand driveCommand;
-
-  private final ShooterOn shooterOnCommand;
-
-  private final ShooterOff shooterOffCommand;
-  
+  // private final ShooterOn shooterOnCommand;
+  // private final ShooterOff shooterOffCommand;
   private final XboxController xboxController = new XboxController(k_xboxController);
-
-
+  private final Joystick BoxController = new Joystick(k_boxController);
   // make camera and compressor public parts of the robtot to be run from 
   // the robot class rather than a seperate subsystem
   public final Compressor m_compressor = new Compressor();
   // public static ADIS16448_IMU m_imu = new ADIS16448_IMU();
-
-
-
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -81,14 +79,14 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_colorWheelSubsystem.register();
-    m_shooterSubsystem.register();
+    m_shooterpid.register();
 
     driveCommand = new DriveCommand(m_driveSubsystem, () -> xboxController.getY(Hand.kLeft), () -> xboxController.getY(Hand.kRight));
     m_driveSubsystem.setDefaultCommand(driveCommand);
 
-    shooterOffCommand = new ShooterOff(m_shooterSubsystem); 
-    shooterOnCommand = new ShooterOn(m_shooterSubsystem);
-    m_shooterSubsystem.setDefaultCommand(shooterOffCommand); 
+    // shooterOffCommand = new ShooterOff(m_shooterpid); 
+    // shooterOnCommand = new ShooterOn(m_shooterpid);
+    // m_shooterpid.setDefaultCommand(shooterOffCommand); 
   }
 
   /**
@@ -98,11 +96,29 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    final Button a = new JoystickButton(xboxController, XboxController.Button.kA.value);
-    final Button b = new JoystickButton(xboxController, XboxController.Button.kB.value);
+    // final Button a = new JoystickButton(xboxController, XboxController.Button.kA.value);
+    // final Button b = new JoystickButton(xboxController, XboxController.Button.kB.value);
+    final Button x = new JoystickButton(xboxController, XboxController.Button.kX.value);
+    final Button y = new JoystickButton(xboxController, XboxController.Button.kY.value);
+    final Button z = new JoystickButton(BoxController, 1);
+    final Button conveyorOut = new JoystickButton(BoxController, 2);
+    final Button conveyorIn = new JoystickButton(BoxController, 3);
+    final Button conveyorStop = new JoystickButton(BoxController, 4);
 
-    a.whenPressed(new ShooterOn(m_shooterSubsystem));
-    b.whenPressed(new ShooterOff(m_shooterSubsystem));
+     x.whenPressed(new IntakeOn(m_intakeSubsystem));
+     y.whenPressed(new IntakeOff(m_intakeSubsystem));
+     z.whenPressed(new IntakeOff(m_intakeSubsystem));
+     conveyorOut.whenPressed(new ConveyorIn(m_conveyourSubsystem));
+     conveyorIn.whenPressed(new ConveyorOut(m_conveyourSubsystem));
+     conveyorStop.whenPressed(new ConveyorStop(m_conveyourSubsystem));
+
+    new JoystickButton(xboxController, XboxController.Button.kA.value)
+        .whenPressed(new InstantCommand(m_shooterpid::enable, m_shooterpid));
+
+    new JoystickButton(xboxController, XboxController.Button.kB.value)
+        .whenPressed(new InstantCommand(m_shooterpid::disable, m_shooterpid));   
+    // a.whenPressed(new ShooterOn(m_shooterSubsystem));
+    // b.whenPressed(new ShooterOff(m_shooterSubsystem));
   }
 
 
