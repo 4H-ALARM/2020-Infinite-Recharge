@@ -6,18 +6,17 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LiftSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class LifterUp extends CommandBase {
+public class winchLockOn extends CommandBase {
+
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LiftSubsystem m_subsystem;
   /**
-   * Creates a new LifterUp.
+   * Creates a new IntakeDeploy.
    */
-  public LifterUp(LiftSubsystem subsystem) {
+  public winchLockOn(LiftSubsystem subsystem) {
     m_subsystem = subsystem;
     addRequirements(m_subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,9 +30,7 @@ public class LifterUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.gearshift(false);
-    m_subsystem.SetSpeed(0.5);
-    
+    m_subsystem.winchLock(true);
   }
 
   // Called once the command ends or is interrupted.

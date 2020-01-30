@@ -65,10 +65,10 @@ public final class Constants {
 
     // shooter constants
     public static final double k_shooterFreeRPS = 38000;
-    public static final double k_shooterTargetRPS = 100000;
+    public static final double k_shooterTargetRPS = 10000;
     public static final double k_shooterToleranceRPS = 1000;
-    public static final double kP = 1;
-    public static final double kI = 0.2;
+    public static final double kP = 1/k_shooterTargetRPS;
+    public static final double kI = 0.01;
     public static final double kD = 0;   
     public static final double k_sVolts = 0.05;
     public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;

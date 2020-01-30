@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
 
@@ -44,8 +45,12 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     m_shooterMotor.setVoltage(output + m_shooterFeedforward.calculate(setpoint));
-    System.out.print("encoder Measurement");
-    System.out.println(getMeasurement());
+    //System.out.print("encoder Measurement");
+    // System.out.println(getMeasurement());
+    SmartDashboard.putNumber("encoder Measurement", getMeasurement());
+    //System.out.print("output");
+    //System.out.println(output + m_shooterFeedforward.calculate(setpoint));
+    SmartDashboard.putNumber("output", output + m_shooterFeedforward.calculate(setpoint));
   }
 
   @Override

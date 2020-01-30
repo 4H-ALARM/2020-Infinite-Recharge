@@ -41,6 +41,8 @@ public class LiftSubsystem extends SubsystemBase {
   }
   public void gearshift (boolean high){
       m_gearShift.set(high);
-
   }
+  public void winchLock (boolean high){
+    m_winchLock.set(high);
+}
 }
