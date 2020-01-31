@@ -44,7 +44,8 @@ public class Robot extends TimedRobot {
      // initialize subsystems are done inside subsystem on creation from the container
 
      // ----------Set up Camera HD3000----------2 options//
-    //CameraServer.getInstance().startAutomaticCapture();
+     //  CameraServer.getInstance().startAutomaticCapture();  //OPT #1
+      // OPT #2
       //   new Thread(() -> {
       //     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
       //     camera.setResolution(1280, 960);

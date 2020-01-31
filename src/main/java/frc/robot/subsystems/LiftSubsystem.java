@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -34,6 +35,8 @@ public class LiftSubsystem extends SubsystemBase {
     m_topDetected = m_topDetector.get();
     m_bottomDetected = m_bottomDetector.get();
     // This method will be called once per scheduler run
+
+    updatedash();
   }
   public void SetSpeed(double Speed){
     m_liftMotor.set(Speed);
@@ -44,5 +47,11 @@ public class LiftSubsystem extends SubsystemBase {
   }
   public void winchLock (boolean high){
     m_winchLock.set(high);
-}
+  }
+  private void updatedash(){
+    SmartDashboard.putBoolean("Lift at Top", m_topDetected);
+    SmartDashboard.putBoolean("Lift at Bottom", m_bottomDetected);
+    SmartDashboard.putBoolean("Winch Locked", m_winchLock.get());
+    SmartDashboard.putNumber("Lift motor set", m_liftMotor.get());
+  }
 }

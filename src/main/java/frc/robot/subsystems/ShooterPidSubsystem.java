@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -45,12 +44,12 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     m_shooterMotor.setVoltage(output + m_shooterFeedforward.calculate(setpoint));
+    m_ballDetected = !m_ballTopDetector.get();
+    updatedash();
     //System.out.print("encoder Measurement");
-    // System.out.println(getMeasurement());
-    SmartDashboard.putNumber("encoder Measurement", getMeasurement());
+    // System.out.println(getMeasurement());    
     //System.out.print("output");
     //System.out.println(output + m_shooterFeedforward.calculate(setpoint));
-    SmartDashboard.putNumber("output", output + m_shooterFeedforward.calculate(setpoint));
   }
 
   @Override
@@ -64,7 +63,11 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   }
 
   public void runFeeder() {
-    m_shooterGate.set(k_feederSpeed);
+    if (m_ballDetected) {
+      m_shooterGate.set(k_feederSpeed);
+    } else {
+      m_shooterGate.set(0.0);
+    }
   }
 
   public void stopFeeder() {
@@ -75,5 +78,13 @@ public class ShooterPidSubsystem extends PIDSubsystem {
     m_encoder.setDistancePerPulse(k_pulsePerRev);
     m_encoder.setMinRate(k_minRate);
     m_encoder.reset();
-}
+    this.disable();
+  }
+  private void updatedash(){
+    SmartDashboard.putNumber("encoder Measurement", getMeasurement());
+    SmartDashboard.putNumber("shooter set", m_shooterMotor.get());
+    SmartDashboard.putNumber("feeder set", m_shooterGate.get());
+    SmartDashboard.putBoolean("shooter ready", (this.atSetpoint() && this.isEnabled()));
+    SmartDashboard.putBoolean("Ball Detected", m_ballDetected);
+  }
 }

@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Controller;
 import frc.robot.commands.ColorWheelDeploy;
+import frc.robot.commands.ColorWheelSpinIn;
+import frc.robot.commands.ColorWheelStop;
 import frc.robot.commands.ConveyorIn;
 import frc.robot.commands.ConveyorOut;
 import frc.robot.commands.ConveyorStop;
@@ -25,6 +27,9 @@ import frc.robot.commands.winchLockOn;
 import frc.robot.commands.LifterDown;
 import frc.robot.commands.LifterStop;
 import frc.robot.commands.LifterUp;
+import frc.robot.commands.FeedShooter;
+import frc.robot.commands.HookDriveCommand;
+import frc.robot.commands.StopFeedingShooter;
 import frc.robot.subsystems.ColorWheelSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -67,6 +72,7 @@ public class RobotContainer {
   // and commands are defined here...
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveCommand driveCommand;
+  private final HookDriveCommand hookDriveCommand;
   // private final ShooterOn shooterOnCommand;
   // private final ShooterOff shooterOffCommand;
   private final XboxController xboxController = new XboxController(k_xboxController);
@@ -84,9 +90,13 @@ public class RobotContainer {
 
     m_colorWheelSubsystem.register();
     m_shooterpid.register();
+    m_hookSubsystem.register();
 
     driveCommand = new DriveCommand(m_driveSubsystem, () -> xboxController.getY(Hand.kLeft), () -> xboxController.getY(Hand.kRight));
     m_driveSubsystem.setDefaultCommand(driveCommand);
+
+    hookDriveCommand = new HookDriveCommand(m_hookSubsystem, () -> BoxController.getY());
+    m_hookSubsystem.setDefaultCommand(hookDriveCommand);  
 
     // shooterOffCommand = new ShooterOff(m_shooterpid); 
     // shooterOnCommand = new ShooterOn(m_shooterpid);
@@ -126,58 +136,60 @@ public class RobotContainer {
 
         //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter
 
-    new JoystickButton(BoxController, 6)
+    new JoystickButton(BoxController, 11)
         .whenPressed(new InstantCommand(m_shooterpid::enable, m_shooterpid)); 
 
     new JoystickButton(BoxController, 6)
-        .whenReleased(new InstantCommand(m_shooterpid::disable, m_shooterpid)); 
+        .whenPressed(new InstantCommand(m_shooterpid::disable, m_shooterpid)); 
+
+    new JoystickButton(BoxController, 7)
+        .whenPressed(new FeedShooter(m_shooterpid)); 
+
+    new JoystickButton(BoxController, 7)
+        .whenReleased(new StopFeedingShooter(m_shooterpid));
 
         //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Lifter
 
     new JoystickButton(BoxController, 1)
         .whenPressed(new LifterDown(m_liftSubsystem)); 
-
     new JoystickButton(BoxController, 1)
         .whenReleased(new LifterStop(m_liftSubsystem));
 
-        //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Lifter
-
     new JoystickButton(BoxController, 2)
         .whenPressed(new LifterUp(m_liftSubsystem)); 
-
     new JoystickButton(BoxController, 2)
         .whenReleased(new LifterStop(m_liftSubsystem)); 
+
+    new JoystickButton(xboxController, XboxController.Button.kY.value)
+        .whenPressed(new winchLockOn(m_liftSubsystem)); 
 
        //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
 
     new JoystickButton(BoxController, 3)
         .whenPressed(new IntakeOn(m_intakeSubsystem)); 
-
     new JoystickButton(BoxController, 3)
         .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+
+    new JoystickButton(BoxController, 5)
+        .whenPressed(new IntakeDeploy(m_intakeSubsystem)); 
 
       //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ conveyor
 
     new JoystickButton(BoxController, 4)
         .whenPressed(new ConveyorIn(m_conveyourSubsystem)); 
-
     new JoystickButton(BoxController, 4)
-        .whenReleased(new ConveyorStop(m_conveyourSubsystem)); 
-
-      //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ IntakeDeploy
-      
-    new JoystickButton(BoxController, 5)
-      .whenPressed(new IntakeDeploy(m_intakeSubsystem)); 
+        .whenReleased(new ConveyorStop(m_conveyourSubsystem));    
 
       //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ the god color wheel deploy
 
     new JoystickButton(BoxController, 12)
-      .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem)); 
-
-      //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+      .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem));
       
-    new JoystickButton(xboxController, XboxController.Button.kY.value)
-      .whenPressed(new winchLockOn(m_liftSubsystem)); 
+    new JoystickButton(BoxController, 8)
+      .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
+    new JoystickButton(BoxController, 8)
+      .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
+
     
       //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 

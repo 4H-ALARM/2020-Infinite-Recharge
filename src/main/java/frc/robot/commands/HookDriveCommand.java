@@ -7,19 +7,24 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.HookSubsystem;
 
+public class HookDriveCommand extends CommandBase {
+  private final HookSubsystem m_subsystem;
 
-public class IntakeOff extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_subsystem;
+  private final DoubleSupplier speed;
   /**
-   * Creates a new IntakeOff.
+   * Creates a new HookDriveCommand.
    */
-  public IntakeOff(IntakeSubsystem subsystem) {
-    m_subsystem = subsystem;
-    addRequirements(m_subsystem);
+  public HookDriveCommand(HookSubsystem Hook, final DoubleSupplier speed) {
+    this.m_subsystem = Hook;
+    this.speed = speed;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Hook);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,7 +36,7 @@ public class IntakeOff extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setSpeed(0.0);
+    m_subsystem.drive(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

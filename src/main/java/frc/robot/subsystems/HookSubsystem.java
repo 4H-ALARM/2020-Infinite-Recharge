@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -28,5 +29,17 @@ public class HookSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    updatedash();
   }
+
+  public void drive(final double speed){
+    m_hookMotor.set(speed);
+  }
+
+  private void updatedash(){
+    SmartDashboard.putNumber("gyro Measurement", m_gyro.getAngle());
+    SmartDashboard.putNumber("hook motor set", m_hookMotor.get());
+  }
+    
 }

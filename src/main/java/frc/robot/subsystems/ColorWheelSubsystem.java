@@ -8,9 +8,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.revrobotics.ColorMatch;
@@ -32,6 +32,8 @@ public class ColorWheelSubsystem extends SubsystemBase {
   private final Color yellowTargetColor = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
   private ColorMatchResult matchResult;
+  private String m_targetColor = "Green";
+  private String m_ColorFound = "Unkown";
 
   /**
    * Creates a new ColorWheelSubsystem.
@@ -45,26 +47,36 @@ public class ColorWheelSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    
+    // This method will be called once per scheduler run    
     matchResult = colorMatcher.matchClosestColor(colorSensor.getColor());
-
-  //   if (matchResult.color == blueTargetColor) {
-  //     System.out.println("Blue");
-  //   } else if (matchResult.color == redTargetColor) {
-  //     System.out.println("Red");
-  //   } else if (matchResult.color == greenTargetColor) {
-  //     System.out.println("Green");
-  //   } else if (matchResult.color == yellowTargetColor) {
-  //     System.out.println("Yellow");
-  //   } else {
-  //     System.out.println("Unknown");
-  //   }
+    updatedash();
+    m_targetColor = SmartDashboard.getString("Color", "Green");
     }
-    public void SetSpeed(double speed){
+   
+  public void SetSpeed(double speed){
+    if (m_ColorFound == m_targetColor) {
+      m_colorWheelMotor.set(0.0);
+    } else {
       m_colorWheelMotor.set(speed);
     }
-    public void colorWheelDeploy(boolean out){
-      colorWheelDeploy(out);
+  }
+
+  public void colorWheelDeploy(boolean out){
+    m_colorWheelDeploy.set(out);
+  }
+
+  private void updatedash(){
+    if (matchResult.color == blueTargetColor) {
+      m_ColorFound = "Blue";
+    } else if (matchResult.color == redTargetColor) {
+      m_ColorFound = "Red";
+    } else if (matchResult.color == greenTargetColor) {
+      m_ColorFound = "Green";
+    } else if (matchResult.color == yellowTargetColor) {
+      m_ColorFound = "Yellow";
+    } else {
+      m_ColorFound = "Unkown";
+    }
+    SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
     }
 }

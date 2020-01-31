@@ -25,11 +25,11 @@ public final class Constants {
     public static final int k_leftRearDriveAddress = 3;     // TalonSRX  
     public static final int k_rightFrontDriveAddress = 4;   // TalonSRX
     public static final int k_rightRearDriveAddress = 5;    // TalonSRX
-    public static final int k_ShooterMotorAddress = 10;      // TalonSRX
+    public static final int k_ShooterMotorAddress = 10;     // TalonSRX
     public static final int k_ballIntakeMotorAddress = 7;   // VictorSPX
     public static final int k_BeltConveyorAddress = 8;      // VictorSPX
     public static final int k_ShooterInAddress = 9;         // VictorSPX
-    public static final int k_ColorWheelMotorAddress = 6;  // VictorSPX
+    public static final int k_ColorWheelMotorAddress = 6;   // VictorSPX
     public static final int k_liftMotorAddress = 11;        // VictorSPX
     public static final int k_hookMotorAddress = 12;        // VictorSPX
 
@@ -64,18 +64,16 @@ public final class Constants {
     public static final I2C.Port k_colorSensorPort = I2C.Port.kOnboard;
 
     // shooter constants
-    public static final double k_shooterFreeRPS = 38000;
-    public static final double k_shooterTargetRPS = 10000;
-    public static final double k_shooterToleranceRPS = 1000;
+    public static final double k_shooterFreeRPS = 39000;
+    public static final double k_shooterTargetRPS = 20000;
+    public static final double k_shooterToleranceRPS = 500;
     public static final double kP = 1/k_shooterTargetRPS;
     public static final double kI = 0.01;
     public static final double kD = 0;   
     public static final double k_sVolts = 0.05;
-    public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;
-    
+    public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;    
     public static final double k_feederSpeed = 0.5;
     public static final int kEncoderCPR = 1024;
-
     public static final double k_encoderDistancePerPulse =
     // Distance units will be rotations
     1.0 / (double) kEncoderCPR;

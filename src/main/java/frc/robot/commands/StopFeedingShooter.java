@@ -8,19 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterPidSubsystem;
 
-
-public class IntakeOff extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_subsystem;
+public class StopFeedingShooter extends CommandBase {
+  private final ShooterPidSubsystem m_subsystem;
   /**
-   * Creates a new IntakeOff.
+   * Creates a new FeedShooter.
    */
-  public IntakeOff(IntakeSubsystem subsystem) {
+  public StopFeedingShooter(ShooterPidSubsystem subsystem) {
     m_subsystem = subsystem;
-    addRequirements(m_subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +29,7 @@ public class IntakeOff extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setSpeed(0.0);
+    m_subsystem.stopFeeder();
   }
 
   // Called once the command ends or is interrupted.
