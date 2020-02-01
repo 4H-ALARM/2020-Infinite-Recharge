@@ -10,7 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.commands.DriveCommand;
+import jdk.jfr.Enabled;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
@@ -41,10 +42,14 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_robotContainer.m_compressor.setClosedLoopControl(true);
+    m_robotContainer.m_compressor.enabled();
+
      // initialize subsystems are done inside subsystem on creation from the container
 
      // ----------Set up Camera HD3000----------2 options//
-     //  CameraServer.getInstance().startAutomaticCapture();  //OPT #1
+     // 
+      CameraServer.getInstance().startAutomaticCapture();  //OPT #1
       // OPT #2
       //   new Thread(() -> {
       //     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -112,6 +117,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   @Override

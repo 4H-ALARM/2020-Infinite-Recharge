@@ -79,13 +79,14 @@ public class RobotContainer {
   private final Joystick BoxController = new Joystick(k_boxController);
   // make camera and compressor public parts of the robtot to be run from 
   // the robot class rather than a seperate subsystem
-  public final Compressor m_compressor = new Compressor();
+  public final Compressor m_compressor = new Compressor(1);
   // public static ADIS16448_IMU m_imu = new ADIS16448_IMU();
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+
     configureButtonBindings();
 
     m_colorWheelSubsystem.register();
@@ -204,7 +205,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // DriveCommand DriveForwards = new DriveCommand(m_driveSubsystem, () -> 1 , () -> 1);
+    
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null  /*DriveForwards*/ ;
   }
 }
