@@ -61,7 +61,8 @@ public class ColorWheelSubsystem extends SubsystemBase {
     }
   }
 
-  public void colorWheelDeploy(boolean out){
+  public void  colorWheelDeploy(boolean out){
+    System.out.println("did this activate");
     m_colorWheelDeploy.set(out);
   }
 

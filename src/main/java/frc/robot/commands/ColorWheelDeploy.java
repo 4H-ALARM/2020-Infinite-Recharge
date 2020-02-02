@@ -15,7 +15,7 @@ public class ColorWheelDeploy extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ColorWheelSubsystem m_subsystem;
   /**
-   * Creates a new ConveyorOut.
+   * Creates a new color wheel.
    */
   public ColorWheelDeploy(ColorWheelSubsystem subsystem) {
     m_subsystem = subsystem;

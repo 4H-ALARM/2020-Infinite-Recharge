@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_robotContainer.m_compressor.setClosedLoopControl(true);
-    m_robotContainer.m_compressor.enabled();
+    m_robotContainer.m_compressor.enabled(); //***************************************************************herehereherehere********************************** */
 
      // initialize subsystems are done inside subsystem on creation from the container
 
