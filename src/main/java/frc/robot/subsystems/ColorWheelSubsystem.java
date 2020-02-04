@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.revrobotics.ColorMatch;
@@ -34,6 +35,9 @@ public class ColorWheelSubsystem extends SubsystemBase {
   private ColorMatchResult matchResult;
   private String m_targetColor = "Green";
   private String m_ColorFound = "Unkown";
+  private boolean m_colorMatched = false;
+
+  public final SendableChooser<String> m_colorChooser = new SendableChooser<>();
 
   /**
    * Creates a new ColorWheelSubsystem.
@@ -43,14 +47,22 @@ public class ColorWheelSubsystem extends SubsystemBase {
     colorMatcher.addColorMatch(greenTargetColor);
     colorMatcher.addColorMatch(redTargetColor);
     colorMatcher.addColorMatch(yellowTargetColor);
+
+    m_colorChooser.setDefaultOption("Color Green", "Green");
+    m_colorChooser.addOption("Color Blue", "Blue");
+    m_colorChooser.addOption("Color Red", "Red");
+    m_colorChooser.addOption("Color Yellow", "Yellow");
+    SmartDashboard.putData("Color", m_colorChooser);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run    
     matchResult = colorMatcher.matchClosestColor(colorSensor.getColor());
+    checkForMatch();
+    m_targetColor = m_colorChooser.getSelected();
+
     updatedash();
-    m_targetColor = SmartDashboard.getString("Color", "Green");
     }
    
   public void SetSpeed(double speed){
@@ -66,7 +78,14 @@ public class ColorWheelSubsystem extends SubsystemBase {
     m_colorWheelDeploy.set(out);
   }
 
-  private void updatedash(){
+  private void updatedash(){    
+    SmartDashboard.putString("Color target", m_targetColor);
+    SmartDashboard.putString("Color detected", m_ColorFound);
+    SmartDashboard.putBoolean("Color matched", m_colorMatched);
+    SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
+  }
+
+  private void checkForMatch() {
     if (matchResult.color == blueTargetColor) {
       m_ColorFound = "Blue";
     } else if (matchResult.color == redTargetColor) {
@@ -78,6 +97,12 @@ public class ColorWheelSubsystem extends SubsystemBase {
     } else {
       m_ColorFound = "Unkown";
     }
-    SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
+
+    if (m_ColorFound == m_targetColor) {
+      m_colorMatched = true;
+    } else {
+      m_colorMatched = false;
     }
+
+  }
 }

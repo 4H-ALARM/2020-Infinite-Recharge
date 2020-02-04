@@ -48,6 +48,7 @@ import frc.robot.commands.IntakeOn;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
 
+
 import static frc.robot.Constants.*;
 
 
@@ -80,7 +81,9 @@ public class RobotContainer {
   // make camera and compressor public parts of the robtot to be run from 
   // the robot class rather than a seperate subsystem
   public final Compressor m_compressor = new Compressor(1);
-  // public static ADIS16448_IMU m_imu = new ADIS16448_IMU();
+  public static final ADIS16448_IMU m_imu = new ADIS16448_IMU();
+
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */

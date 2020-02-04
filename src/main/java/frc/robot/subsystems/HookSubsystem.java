@@ -17,7 +17,7 @@ import static frc.robot.Constants.*;
 
 public class HookSubsystem extends SubsystemBase {
   private final WPI_VictorSPX m_hookMotor = new WPI_VictorSPX(k_hookMotorAddress);
-  private final  ADXRS450_Gyro  m_gyro = new ADXRS450_Gyro(k_gyroPort);
+  private final  ADXRS450_Gyro  m_gyro = new ADXRS450_Gyro();  // (k_gyroPort);
   /**
    * Creates a new HookSubsystem.
    */
