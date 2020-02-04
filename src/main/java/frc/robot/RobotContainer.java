@@ -81,7 +81,7 @@ public class RobotContainer {
   // make camera and compressor public parts of the robtot to be run from 
   // the robot class rather than a seperate subsystem
   public final Compressor m_compressor = new Compressor(1);
-  public static final ADIS16448_IMU m_imu = new ADIS16448_IMU();
+  // public static final ADIS16448_IMU m_imu = new ADIS16448_IMU();
 
 
   /**
