@@ -10,17 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.DriveCommand;
-import jdk.jfr.Enabled;
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.core.Mat;
-import com.analog.adis16448.frc.ADIS16448_IMU ;
 
-import static frc.robot.Constants.*;
 /*
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -30,8 +21,6 @@ import static frc.robot.Constants.*;
 public class Robot extends TimedRobot {
   
   private Command m_autonomousCommand;
-
-
   private RobotContainer m_robotContainer;
 
   /**
@@ -44,14 +33,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_robotContainer.m_compressor.setClosedLoopControl(true);
-    m_robotContainer.m_compressor.enabled(); //***************************************************************herehereherehere********************************** */
-    
+    m_robotContainer.m_compressor.enabled(); 
 
-
-   
-    
-
-         // initialize subsystems are done inside subsystem on creation from the container
+    // initialize subsystems are done inside subsystem on creation from the container
 
      // ----------Set up Camera HD3000----------2 options//
      // 

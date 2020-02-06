@@ -31,7 +31,7 @@ public class LifterUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.gearshift(false);
+    // m_subsystem.gearshift(false);
     m_subsystem.SetSpeed(0.5);
     
   }

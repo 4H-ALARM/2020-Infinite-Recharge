@@ -9,10 +9,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ConveyorSubsystem extends SubsystemBase {
   
@@ -28,8 +27,13 @@ public class ConveyorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    updatedash();
   }
   public void convayorSpeed(double speed) {
     BallConveryor.set(speed);
+  }
+
+  private void updatedash(){
+    SmartDashboard.putNumber("Conveyor motor set", BallConveryor.get());
   }
 }

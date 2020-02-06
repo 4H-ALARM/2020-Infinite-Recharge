@@ -20,8 +20,8 @@ public class LiftSubsystem extends SubsystemBase {
   private boolean m_bottomDetected = false;
   private final DigitalInput m_topDetector = new DigitalInput(k_topDetector);
   private final DigitalInput m_bottomDetector = new DigitalInput(k_bottomDetector);
-  private final Solenoid m_gearShift = new Solenoid(k_shiftUp);
-  private final Solenoid m_winchLock = new Solenoid(k_winchLock);
+  // private final Solenoid m_gearShift = new Solenoid(k_shiftUp);
+  private final Solenoid m_winchLock = new Solenoid(k_PCMModule, k_winchLock);
   private final WPI_VictorSPX m_liftMotor = new WPI_VictorSPX(k_liftMotorAddress);
   /**
    * Creates a new LiftSubsystem.
@@ -38,12 +38,12 @@ public class LiftSubsystem extends SubsystemBase {
 
     updatedash();
   }
-  public void SetSpeed(double Speed){
+  public void SetSpeed(double Speed){     
     m_liftMotor.set(Speed);
 
   }
   public void gearshift (boolean high){
-      m_gearShift.set(high);
+      // m_gearShift.set(high);
   }
   public void winchLock (boolean high){
     m_winchLock.set(high);

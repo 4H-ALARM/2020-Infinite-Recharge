@@ -52,14 +52,19 @@ public final class Constants {
     public static final int k_pulsePerRev = 20;
     public static final int k_minRate = 50;
     public static final boolean k_squareInputs = false;
+
+    // solenoid addresses on PCM
+    public static final int k_PCMModule = 1;
     public static final int k_colorWheelDeploy = 0;
-    public static final int k_colorWheelRetract = 1;
-    public static final int k_intakeDeploy = 2;
-    public static final int k_intakeRetract = 3;
-    public static final int k_shiftUp = 4;
-    public static final int k_shiftDown = 5;
-    public static final int k_winchLock = 6;
-    public static final int k_winchUnlock = 7;
+    public static final int k_intakeDeploy = 1;
+    public static final int k_winchLock = 2;
+
+    // other PCM addresses planned but not used 
+    // public static final int k_colorWheelRetract = 1;    
+    // public static final int k_intakeRetract = 3;
+    // public static final int k_shiftUp = 4;
+    // public static final int k_shiftDown = 5;    
+    // public static final int k_winchUnlock = 7;
 
     public static final I2C.Port k_colorSensorPort = I2C.Port.kOnboard;
 

@@ -44,12 +44,8 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     m_shooterMotor.setVoltage(output + m_shooterFeedforward.calculate(setpoint));
-    m_ballDetected = !m_ballTopDetector.get();
+    m_ballDetected = m_ballTopDetector.get();
     updatedash();
-    //System.out.print("encoder Measurement");
-    // System.out.println(getMeasurement());    
-    //System.out.print("output");
-    //System.out.println(output + m_shooterFeedforward.calculate(setpoint));
   }
 
   @Override

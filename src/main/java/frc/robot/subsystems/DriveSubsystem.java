@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.Spark;
 
 import static frc.robot.Constants.*;
 
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import com.ctre.phoenix.motorcontrol.can.*;

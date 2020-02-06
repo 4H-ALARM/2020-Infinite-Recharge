@@ -22,7 +22,7 @@ import static frc.robot.Constants.*;
 
 public class ColorWheelSubsystem extends SubsystemBase {
   private final WPI_VictorSPX m_colorWheelMotor = new WPI_VictorSPX(k_ColorWheelMotorAddress);
-  private final Solenoid m_colorWheelDeploy = new Solenoid(k_colorWheelDeploy);
+  private final Solenoid m_colorWheelDeploy = new Solenoid(k_PCMModule, k_colorWheelDeploy);
 
   private final ColorSensorV3 colorSensor = new ColorSensorV3(k_colorSensorPort);
   private final ColorMatch colorMatcher = new ColorMatch();
@@ -74,7 +74,6 @@ public class ColorWheelSubsystem extends SubsystemBase {
   }
 
   public void  colorWheelDeploy(boolean out){
-    System.out.println("did this activate");
     m_colorWheelDeploy.set(out);
   }
 
@@ -83,6 +82,7 @@ public class ColorWheelSubsystem extends SubsystemBase {
     SmartDashboard.putString("Color detected", m_ColorFound);
     SmartDashboard.putBoolean("Color matched", m_colorMatched);
     SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
+    SmartDashboard.putBoolean("Color wheel deployed", m_colorWheelDeploy.get());
   }
 
   private void checkForMatch() {

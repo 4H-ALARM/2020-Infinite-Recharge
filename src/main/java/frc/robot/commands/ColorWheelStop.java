@@ -8,8 +8,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.ColorWheelSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem;
 
 public class ColorWheelStop extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -32,6 +32,7 @@ public class ColorWheelStop extends CommandBase {
   @Override
   public void execute() {
     m_subsystem.SetSpeed(0.0);
+    m_subsystem.colorWheelDeploy(false);
   }
 
   // Called once the command ends or is interrupted.

@@ -32,6 +32,7 @@ public class IntakeOff extends CommandBase {
   @Override
   public void execute() {
     m_subsystem.setSpeed(0.0);
+    m_subsystem.retract();
   }
 
   // Called once the command ends or is interrupted.
