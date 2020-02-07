@@ -21,17 +21,17 @@ import edu.wpi.first.wpilibj.SPI;
  */
 public final class Constants {
         // CAN bus address - PDP = 0, PCM = 1 by default
-    public static final int k_leftFrontDriveAddress = 2;    // TalonSRX
-    public static final int k_leftRearDriveAddress = 3;     // TalonSRX  
-    public static final int k_rightFrontDriveAddress = 4;   // TalonSRX
-    public static final int k_rightRearDriveAddress = 5;    // TalonSRX
-    public static final int k_ShooterMotorAddress = 10;     // TalonSRX
-    public static final int k_ballIntakeMotorAddress = 7;   // VictorSPX
-    public static final int k_BeltConveyorAddress = 8;      // VictorSPX
-    public static final int k_ShooterInAddress = 9;         // VictorSPX
-    public static final int k_ColorWheelMotorAddress = 6;   // VictorSPX
-    public static final int k_liftMotorAddress = 11;        // VictorSPX
-    public static final int k_hookMotorAddress = 12;        // VictorSPX
+    public static final int k_leftFrontDriveAddress = 2;    // TalonSRX x
+    public static final int k_leftRearDriveAddress = 3;     // TalonSRX X
+    public static final int k_rightFrontDriveAddress = 4;   // TalonSRX X
+    public static final int k_rightRearDriveAddress = 5;    // TalonSRX Y
+    public static final int k_ColorWheelMotorAddress = 6;   // VictorSPX X
+    public static final int k_ballIntakeMotorAddress = 7;   // VictorSPX x
+    public static final int k_BeltConveyorAddress = 8;      // VictorSPX x
+    public static final int k_ShooterInAddress = 9;         // VictorSPX x  
+    public static final int k_ShooterMotorAddress = 10;     // VictorSPX x
+    public static final int k_liftMotorAddress = 11;        // VictorSPX x
+    public static final int k_hookMotorAddress = 12;        // VictorSPX x
 
     // DIO addresses
     public static final int k_BallTopDetector = 0;    

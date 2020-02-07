@@ -18,18 +18,18 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  // private final WPI_TalonSRX leftFrontDriveTalonSRX = new WPI_TalonSRX(k_leftFrontDriveAddress);
-  // private final WPI_TalonSRX leftRearDriveTalonSRX = new WPI_TalonSRX(k_leftRearDriveAddress);
-  // private final SpeedControllerGroup m_left = new SpeedControllerGroup(leftFrontDriveTalonSRX, leftRearDriveTalonSRX);
-  // private final WPI_TalonSRX rightFrontDriveTalonSRX = new WPI_TalonSRX(k_rightFrontDriveAddress);
-  // private final WPI_TalonSRX rightRearDriveTalonSRX = new WPI_TalonSRX(k_rightRearDriveAddress);
-  // private final SpeedControllerGroup m_right = new SpeedControllerGroup(rightFrontDriveTalonSRX, rightRearDriveTalonSRX);
-  // private final DifferentialDrive driveSubsystem = new DifferentialDrive(m_left, m_right);
+  private final WPI_TalonSRX leftFrontDriveTalonSRX = new WPI_TalonSRX(k_leftFrontDriveAddress);
+  private final WPI_TalonSRX leftRearDriveTalonSRX = new WPI_TalonSRX(k_leftRearDriveAddress);
+  private final SpeedControllerGroup m_left = new SpeedControllerGroup(leftFrontDriveTalonSRX, leftRearDriveTalonSRX);
+  private final WPI_TalonSRX rightFrontDriveTalonSRX = new WPI_TalonSRX(k_rightFrontDriveAddress);
+  private final WPI_TalonSRX rightRearDriveTalonSRX = new WPI_TalonSRX(k_rightRearDriveAddress);
+  private final SpeedControllerGroup m_right = new SpeedControllerGroup(rightFrontDriveTalonSRX, rightRearDriveTalonSRX);
+  private final DifferentialDrive driveSubsystem = new DifferentialDrive(m_left, m_right);
   
-  private final Spark leftDrive = new Spark(1);
-  private final Spark rightDrive = new Spark(2);
-  //private final RobotDrive drive = new RobotDrive(leftDrive, rightDrive);
-  public DifferentialDrive driveSubsystem = new DifferentialDrive(leftDrive, rightDrive);
+  // private final Spark leftDrive = new Spark(1);
+  // private final Spark rightDrive = new Spark(2);
+  // //private final RobotDrive drive = new RobotDrive(leftDrive, rightDrive);
+  // public DifferentialDrive driveSubsystem = new DifferentialDrive(leftDrive, rightDrive);
 
   /**
    * Creates a new DriveSubsystem.
