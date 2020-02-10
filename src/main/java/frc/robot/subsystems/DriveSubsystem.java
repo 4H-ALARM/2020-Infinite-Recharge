@@ -24,7 +24,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final WPI_TalonSRX rightFrontDriveTalonSRX = new WPI_TalonSRX(k_rightFrontDriveAddress);
   private final WPI_TalonSRX rightRearDriveTalonSRX = new WPI_TalonSRX(k_rightRearDriveAddress);
   private final SpeedControllerGroup m_right = new SpeedControllerGroup(rightFrontDriveTalonSRX, rightRearDriveTalonSRX);
-  private final DifferentialDrive driveSubsystem = new DifferentialDrive(m_left, m_right);
+  private final DifferentialDrive driveSubsystem = new DifferentialDrive(m_left, m_right); 
   
   // private final Spark leftDrive = new Spark(1);
   // private final Spark rightDrive = new Spark(2);
@@ -35,6 +35,9 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new DriveSubsystem.
    */
   public DriveSubsystem() {
+    // correct drive direction
+    m_left.setInverted(true);
+    m_right.setInverted(true);
 
   }
 

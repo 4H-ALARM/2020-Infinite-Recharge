@@ -35,7 +35,7 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   public ShooterPidSubsystem() {
     super(new PIDController(kP, kI, kD));
     getController().setTolerance(k_shooterToleranceRPS);
-    m_encoder.setDistancePerPulse(k_encoderDistancePerPulse);
+    m_encoder.setDistancePerPulse(k_encoderDistancePerPulse);//im a reference to a pointer
     setSetpoint(k_shooterTargetRPS);
         // The PIDController used by the subsystem
         this.init();
@@ -43,8 +43,9 @@ public class ShooterPidSubsystem extends PIDSubsystem {
 
   @Override
   public void useOutput(double output, double setpoint) {
+    // setSetpoint(k_shooterTargetRPS);
     m_shooterMotor.setVoltage(output + m_shooterFeedforward.calculate(setpoint));
-    m_ballDetected = m_ballTopDetector.get();
+    m_ballDetected = true;  // until detector attached alway assume ball in place  later use this: m_ballTopDetector.get();
     updatedash();
   }
 
@@ -59,7 +60,7 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   }
 
   public void runFeeder() {
-    if (m_ballDetected) {
+    if (m_ballDetected && (this.atSetpoint()) && (this.isEnabled())) {
       m_shooterGate.set(k_feederSpeed);
     } else {
       m_shooterGate.set(0.0);
@@ -78,6 +79,7 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   }
   private void updatedash(){
     SmartDashboard.putNumber("encoder Measurement", getMeasurement());
+    SmartDashboard.putNumber("Shooter set point",k_shooterTargetRPS);
     SmartDashboard.putNumber("shooter set", m_shooterMotor.get());
     SmartDashboard.putNumber("feeder set", m_shooterGate.get());
     SmartDashboard.putBoolean("shooter ready", (this.atSetpoint() && this.isEnabled()));

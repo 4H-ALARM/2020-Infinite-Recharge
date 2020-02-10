@@ -43,6 +43,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeOn;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 
 import static frc.robot.Constants.*;
@@ -109,13 +111,11 @@ public class RobotContainer {
    
     new JoystickButton(BoxController, 11)
         .whenPressed(new InstantCommand(m_shooterpid::enable, m_shooterpid)); 
-
     new JoystickButton(BoxController, 6)
         .whenPressed(new InstantCommand(m_shooterpid::disable, m_shooterpid)); 
 
     new JoystickButton(BoxController, 7)
         .whenPressed(new FeedShooter(m_shooterpid)); 
-
     new JoystickButton(BoxController, 7)
         .whenReleased(new StopFeedingShooter(m_shooterpid));
 
@@ -174,9 +174,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // DriveCommand DriveForwards = new DriveCommand(m_driveSubsystem, () -> 1 , () -> 1);
-    
-    // An ExampleCommand will run in autonomous
+
     return null  /*DriveForwards*/ ;
   }
 }
