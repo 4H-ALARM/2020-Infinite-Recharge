@@ -44,7 +44,8 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     // setSetpoint(k_shooterTargetRPS);
-    m_shooterMotor.setVoltage(output + m_shooterFeedforward.calculate(setpoint));
+    // Multiply by -1 to get the motor turning the right way
+    m_shooterMotor.setVoltage(-1*(output + m_shooterFeedforward.calculate(setpoint)));
     m_ballDetected = true;  // until detector attached alway assume ball in place  later use this: m_ballTopDetector.get();
     updatedash();
   }
