@@ -69,10 +69,10 @@ public final class Constants {
     public static final I2C.Port k_colorSensorPort = I2C.Port.kOnboard;
 
     // shooter constants
-    public static final double k_shooterFreeRPS = 39000;
-    public static final double k_shooterTargetRPS = 18000;
+    public static final double k_shooterFreeRPS = 32000;  //39000
+    public static final double k_shooterTargetRPS = 18000;   //18000
     public static final double k_shooterToleranceRPS = 1500;
-    public static final double kP = 1/k_shooterTargetRPS;
+    public static final double kP = 2*(1/k_shooterTargetRPS);
     public static final double kI = 0.01;
     public static final double kD = 0;   
     public static final double k_sVolts = 0.05;
