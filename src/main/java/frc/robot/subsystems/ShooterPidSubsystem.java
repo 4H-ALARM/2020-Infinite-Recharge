@@ -24,6 +24,9 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   private final WPI_VictorSPX m_shooterGate = new WPI_VictorSPX(k_ShooterInAddress);
   private final DigitalInput m_ballTopDetector = new DigitalInput(k_BallTopDetector);
   private final SimpleMotorFeedforward m_shooterFeedforward = new SimpleMotorFeedforward(k_sVolts,k_vVoltSecondsPerRotation);
+  private ConveyorSubsystem m_conveyorSubsystem = null;
+
+  private double m_setPoint = k_shooterTargetRPS; 
 
 
   private boolean m_ballDetected = false;
@@ -35,15 +38,16 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   public ShooterPidSubsystem() {
     super(new PIDController(kP, kI, kD));
     getController().setTolerance(k_shooterToleranceRPS);
-    m_encoder.setDistancePerPulse(k_encoderDistancePerPulse);//im a reference to a pointer
-    setSetpoint(k_shooterTargetRPS);
-        // The PIDController used by the subsystem
-        this.init();
+    m_encoder.setDistancePerPulse(k_encoderDistancePerPulse);
+    setSetpoint(m_setPoint);
+    // The PIDController used by the subsystem
+    this.init();
   }
 
   @Override
   public void useOutput(double output, double setpoint) {
-    // setSetpoint(k_shooterTargetRPS);
+    m_setPoint = SmartDashboard.getNumber("Shooter set point", k_shooterTargetRPS);
+    // setSetpoint(m_setPoint);
     // Multiply by -1 to get the motor turning the right way
     m_shooterMotor.setVoltage(-1*(output + m_shooterFeedforward.calculate(setpoint)));
     m_ballDetected = true;  // until detector attached alway assume ball in place  later use this: m_ballTopDetector.get();
@@ -63,6 +67,7 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   public void runFeeder() {
     if (m_ballDetected && (this.atSetpoint()) && (this.isEnabled())) {
       m_shooterGate.set(k_feederSpeed);
+      m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
     } else {
       m_shooterGate.set(0.0);
     }
@@ -70,6 +75,11 @@ public class ShooterPidSubsystem extends PIDSubsystem {
 
   public void stopFeeder() {
     m_shooterGate.set(0);
+    m_conveyorSubsystem.convayorSpeed(0);
+  }
+
+  public void setConveyor(ConveyorSubsystem conveyor) {
+    m_conveyorSubsystem = conveyor;
   }
 
   private void init() {
@@ -80,7 +90,7 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   }
   private void updatedash(){
     SmartDashboard.putNumber("encoder Measurement", getMeasurement());
-    SmartDashboard.putNumber("Shooter set point",k_shooterTargetRPS);
+    SmartDashboard.putNumber("Shooter set point",m_setPoint);
     SmartDashboard.putNumber("shooter set", m_shooterMotor.get());
     SmartDashboard.putNumber("feeder set", m_shooterGate.get());
     SmartDashboard.putBoolean("shooter ready", (this.atSetpoint() && this.isEnabled()));

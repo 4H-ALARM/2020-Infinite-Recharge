@@ -92,6 +92,9 @@ public class RobotContainer {
     m_shooterpid.register();
     m_hookSubsystem.register();
 
+    // tell the shooter about the coveyor to use
+    m_shooterpid.setConveyor(m_conveyourSubsystem);
+
     driveCommand = new DriveCommand(m_driveSubsystem, () -> xboxController.getY(Hand.kLeft), () -> xboxController.getY(Hand.kRight));
     m_driveSubsystem.setDefaultCommand(driveCommand);
 
@@ -106,7 +109,27 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    setXboxButtons();
+    setBoxButtons();    
+    }
 
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+
+    return null  /*DriveForwards*/ ;
+  }
+
+  private void setXboxButtons(){
+    new JoystickButton(xboxController, XboxController.Button.kY.value)
+        .whenPressed(new winchLockOn(m_liftSubsystem));
+  }
+
+  private void setBoxButtons(){
     //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter
    
     new JoystickButton(BoxController, 11)
@@ -130,9 +153,6 @@ public class RobotContainer {
         .whenPressed(new LifterUp(m_liftSubsystem)); 
     new JoystickButton(BoxController, 2)
         .whenReleased(new LifterStop(m_liftSubsystem)); 
-
-    new JoystickButton(xboxController, XboxController.Button.kY.value)
-        .whenPressed(new winchLockOn(m_liftSubsystem));
 
     //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
 
@@ -165,16 +185,5 @@ public class RobotContainer {
     new JoystickButton(BoxController, 8)
       .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
 
-    }
-
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-
-    return null  /*DriveForwards*/ ;
   }
 }

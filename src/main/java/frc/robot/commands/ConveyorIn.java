@@ -10,6 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.ConveyorSubsystem;
+import static frc.robot.Constants.*;
+
 
 public class ConveyorIn extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -31,7 +33,7 @@ public class ConveyorIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.convayorSpeed(0.3);
+    m_subsystem.convayorSpeed(k_conveyorSpeed);
   }
 
   // Called once the command ends or is interrupted.
