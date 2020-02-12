@@ -96,4 +96,12 @@ public class ShooterPidSubsystem extends PIDSubsystem {
     SmartDashboard.putBoolean("shooter ready", (this.atSetpoint() && this.isEnabled()));
     SmartDashboard.putBoolean("Ball Detected", m_ballDetected);
   }
+
+  public void toggle() {
+    if(this.isEnabled()) {
+      disable();
+    } else {
+      enable();
+    }
+  }
 }

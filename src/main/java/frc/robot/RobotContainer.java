@@ -43,8 +43,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeOn;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
+
 
 
 import static frc.robot.Constants.*;
@@ -183,6 +182,66 @@ public class RobotContainer {
     new JoystickButton(BoxController, 8)
       .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
     new JoystickButton(BoxController, 8)
+      .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
+
+  }
+
+  private void setJoystickButtons(){
+    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter
+   
+    // Shooter is toggled by the trigger button.
+    new JoystickButton(BoxController, 0)
+        .whenPressed(new InstantCommand(m_shooterpid::toggle, m_shooterpid)); 
+
+    // Feed is enabled when button 3 is pressed down.
+    // The conveyor will always run in while button 3 is pressed down.
+    new JoystickButton(BoxController, 2)
+        .whenPressed(new FeedShooter(m_shooterpid)); 
+    new JoystickButton(BoxController, 2)
+        .whenReleased(new StopFeedingShooter(m_shooterpid));
+
+    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Lifter
+
+    new JoystickButton(BoxController, 1) // TODO
+        .whenPressed(new LifterDown(m_liftSubsystem)); 
+    new JoystickButton(BoxController, 1) // TODO
+        .whenReleased(new LifterStop(m_liftSubsystem));
+
+    new JoystickButton(BoxController, 2) // TODO
+        .whenPressed(new LifterUp(m_liftSubsystem)); 
+    new JoystickButton(BoxController, 2) // TODO
+        .whenReleased(new LifterStop(m_liftSubsystem)); 
+
+    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
+
+    new JoystickButton(BoxController, 6)
+        .whenPressed(new IntakeOn(m_intakeSubsystem)); 
+    new JoystickButton(BoxController, 6)
+        .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+
+    new JoystickButton(BoxController, 5)
+        .whenPressed(new IntakeDeploy(m_intakeSubsystem));
+    // new JoystickButton(BoxController, 5) // TODO
+    //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ conveyor
+
+  // The conveyor can be ran out by pressing button 2.
+    new JoystickButton(BoxController, 1)
+        .whenPressed(new ConveyorOut(m_conveyourSubsystem)); 
+    new JoystickButton(BoxController, 1)
+        .whenReleased(new ConveyorStop(m_conveyourSubsystem));    
+
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ the god color wheel deploy
+
+    new JoystickButton(BoxController, 12) // TODO
+      .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem));
+    // new JoystickButton(BoxController, 12) // TODO
+    //   .whenReleased(new ColorWheelDeployIn(m_colorWheelSubsystem));
+      
+    new JoystickButton(BoxController, 8) // TODO
+      .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
+    new JoystickButton(BoxController, 8) // TODO
       .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
 
   }
