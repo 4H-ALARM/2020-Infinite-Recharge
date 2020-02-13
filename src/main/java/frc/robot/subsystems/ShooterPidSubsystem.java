@@ -46,8 +46,6 @@ public class ShooterPidSubsystem extends PIDSubsystem {
 
   @Override
   public void useOutput(double output, double setpoint) {
-    m_setPoint = SmartDashboard.getNumber("Shooter set point", k_shooterTargetRPS);
-    // setSetpoint(m_setPoint);
     // Multiply by -1 to get the motor turning the right way
     m_shooterMotor.setVoltage(-1*(output + m_shooterFeedforward.calculate(setpoint)));
     m_ballDetected = true;  // until detector attached alway assume ball in place  later use this: m_ballTopDetector.get();
@@ -101,6 +99,8 @@ public class ShooterPidSubsystem extends PIDSubsystem {
     if(this.isEnabled()) {
       disable();
     } else {
+      // m_setPoint = SmartDashboard.getNumber("Shooter set point", k_shooterTargetRPS);
+      // setSetpoint(m_setPoint);
       enable();
     }
   }

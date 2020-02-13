@@ -32,7 +32,7 @@ public class LifterUp extends CommandBase {
   @Override
   public void execute() {
     // m_subsystem.gearshift(false);
-    m_subsystem.SetSpeed(0.5);
+    m_subsystem.SetSpeed(0.7);
     
   }
 

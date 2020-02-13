@@ -67,6 +67,7 @@ public class RobotContainer {
   private final HookSubsystem m_hookSubsystem = new HookSubsystem(); 
   private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
   private final ColorWheelSubsystem m_colorWheelSubsystem = new ColorWheelSubsystem();
+  
   // and commands are defined here...
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveCommand driveCommand;
@@ -101,7 +102,7 @@ public class RobotContainer {
 
     driveCommand = new DriveCommand(m_driveSubsystem, () -> xboxController.getY(Hand.kLeft), () -> xboxController.getY(Hand.kRight));
     m_driveSubsystem.setDefaultCommand(driveCommand);
-
+    
     hookDriveCommand = new HookDriveCommand(m_hookSubsystem, () -> BoxController.getY());
     m_hookSubsystem.setDefaultCommand(hookDriveCommand);  
   }
@@ -141,10 +142,10 @@ public class RobotContainer {
   }
 
   private void setBoxButtons(){
-    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter
+    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter toggle on/off
    
     new JoystickButton(BoxController, 11)
-        .whenPressed(new InstantCommand(m_shooterpid::enable, m_shooterpid)); 
+        .whenPressed(new InstantCommand(m_shooterpid::toggle, m_shooterpid)); 
     new JoystickButton(BoxController, 6)
         .whenPressed(new InstantCommand(m_shooterpid::disable, m_shooterpid)); 
 
