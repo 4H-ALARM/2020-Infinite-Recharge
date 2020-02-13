@@ -47,7 +47,7 @@ public final class Constants {
     // USB addresses
     public static final int k_xboxController = 0;
     public static final int k_boxController = 1;
-    public static final boolean k_useBox = false; // set to true to use ALARM Box, false to use logitech
+    public static final boolean k_useBox = true; // set to true to use ALARM Box, false to use logitech
 
     // other constants
     public static final int k_pulsePerRev = 20;
