@@ -18,6 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final WPI_VictorSPX ballIntakeMotor = new WPI_VictorSPX(k_ballIntakeMotorAddress);
   private final Solenoid IntakeDeploy = new Solenoid(k_PCMModule, k_intakeDeploy);
   private boolean m_intakeDeployed = false;
+  private ConveyorSubsystem m_conveyorSubsystem = null;
 
   /**
    * Creates a new IntakeSubsystem.
@@ -34,6 +35,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setSpeed(final double ballSpeed) {
     ballIntakeMotor.set(ballSpeed);
+    if (ballSpeed == k_intakeSpeed) {
+      m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
+    } else {
+      m_conveyorSubsystem.convayorSpeed(0.0);
+    }
   }
 
   public void deploy(){
@@ -44,6 +50,10 @@ public class IntakeSubsystem extends SubsystemBase {
   public void retract(){
     IntakeDeploy.set(false);
     m_intakeDeployed = false;
+  }
+
+  public void setConveyor(ConveyorSubsystem conveyor) {
+    m_conveyorSubsystem = conveyor;
   }
 
   private void updatedash(){

@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import static frc.robot.Constants.*;
+
 public class IntakeOn extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem m_subsystem;
@@ -31,7 +33,7 @@ public class IntakeOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setSpeed(0.5);
+    m_subsystem.setSpeed(k_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
