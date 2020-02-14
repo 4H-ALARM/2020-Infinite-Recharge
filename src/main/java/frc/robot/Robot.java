@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveStraight;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 
 /*
@@ -22,6 +24,8 @@ public class Robot extends TimedRobot {
   
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private static int loops = 0;
+  private static int stage = 1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -107,7 +111,31 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-
+    /***********************Stage_1**************************/
+    if (stage == 1){
+        //driveStraight command
+      if (loops == 50){
+        //driveOFF command
+        loops = 0;
+        stage = 2;
+      }
+      else{
+        loops += 1;
+      }
+    }
+    /***********************Stage_2**************************/
+    else if (stage == 2){
+        //ShootCommand
+      if (loops == 50){
+        //shootOFF command
+        loops = 0;
+        stage = 2;
+      }
+      else{
+        loops += 1;
+      }
+    }
+    /***********************EndOfAuto**************************/
   }
 
   @Override

@@ -79,7 +79,7 @@ public final class Constants {
     public static final double k_sVolts = 0.05;
     public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;    
     public static final double k_feederSpeed = -0.5;
-    public static final double k_conveyorSpeed = 0.3;
+    public static final double k_conveyorSpeed = 0.6;
     public static final double k_intakeSpeed = 0.5;
     public static final int kEncoderCPR = 1024;
     public static final double k_encoderDistancePerPulse =
