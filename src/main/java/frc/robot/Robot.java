@@ -129,13 +129,13 @@ public class Robot extends TimedRobot {
       if (loops == 50){
         //shootOFF command
         loops = 0;
-        stage = 2;
+        stage = 3;
       }
       else{
         loops += 1;
       }
     }
-    /***********************EndOfAuto**************************/
+    /***********************EndOfAuto************************/
   }
 
   @Override

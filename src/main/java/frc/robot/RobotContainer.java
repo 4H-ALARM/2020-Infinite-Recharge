@@ -169,7 +169,7 @@ public class RobotContainer {
     //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
 
     new JoystickButton(BoxController, 3)
-        .whenPressed(new IntakeOn(m_intakeSubsystem)); 
+        .whenPressed(new IntakeOff(m_intakeSubsystem)); // Janky @$$
     new JoystickButton(BoxController, 3)
         .whenReleased(new IntakeOff(m_intakeSubsystem)); 
 
