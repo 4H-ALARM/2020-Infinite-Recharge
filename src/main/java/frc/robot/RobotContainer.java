@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import frc.robot.commands.AutonomousDrive;
 import frc.robot.commands.ColorWheelDeploy;
 import frc.robot.commands.ColorWheelDeployIn;
 import frc.robot.commands.ColorWheelSpinIn;
@@ -21,12 +22,14 @@ import frc.robot.commands.ConveyorIn;
 import frc.robot.commands.ConveyorOut;
 import frc.robot.commands.ConveyorStop;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveStraight;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeDeploy;
 import frc.robot.commands.winchLockOn;
 import frc.robot.commands.LifterDown;
 import frc.robot.commands.LifterStop;
 import frc.robot.commands.LifterUp;
+import frc.robot.commands.winchLockOff;
 import frc.robot.commands.FeedShooter;
 import frc.robot.commands.HookDriveCommand;
 import frc.robot.commands.StopFeedingShooter;
@@ -45,7 +48,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeOn;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
-
+//import frc.robot.commands.AutonomousDrive;
 
 
 import static frc.robot.Constants.*;
@@ -105,6 +108,8 @@ public class RobotContainer {
     
     hookDriveCommand = new HookDriveCommand(m_hookSubsystem, () -> BoxController.getY());
     m_hookSubsystem.setDefaultCommand(hookDriveCommand);  
+
+    //AutoDirveCommand = new AutonomousDrive(m_driveSubsystem);
   }
 
   /**
@@ -139,6 +144,9 @@ public class RobotContainer {
   private void setXboxButtons(){
     new JoystickButton(xboxController, XboxController.Button.kY.value)
         .whenPressed(new winchLockOn(m_liftSubsystem));
+
+    new JoystickButton(xboxController, XboxController.Button.kA.value)
+        .whenPressed(new winchLockOff(m_liftSubsystem));
   }
 
   private void setBoxButtons(){
@@ -270,5 +278,9 @@ public class RobotContainer {
     } else {
       m_useBox = true;
     }
+  }
+
+  public Command autonCommand(){
+    return (new DriveStraight(m_driveSubsystem)).withTimeout(1);
   }
 }

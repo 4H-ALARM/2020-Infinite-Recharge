@@ -27,7 +27,7 @@ public class LiftSubsystem extends SubsystemBase {
    * Creates a new LiftSubsystem.
    */
   public LiftSubsystem() {
-
+    m_winchLock.set(true);
   }
 
   @Override

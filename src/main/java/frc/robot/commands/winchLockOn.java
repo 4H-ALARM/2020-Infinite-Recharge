@@ -30,7 +30,7 @@ public class winchLockOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.winchLock(true);
+    m_subsystem.winchLock(false);
   }
 
   // Called once the command ends or is interrupted.
