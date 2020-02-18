@@ -8,19 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Timer;
 
-import static frc.robot.Constants.*;
+import frc.robot.subsystems.DriveSubsystem;
 
-public class IntakeOn extends CommandBase {
+// import edu.wpi.first.wpilibj.Timer;
+
+public class DriveStop extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_subsystem;
+  private final DriveSubsystem m_subsystem;
   /**
-   * Creates a new IntakeOn.
+   * Creates a new DriveStraight.
    */
-  public IntakeOn(IntakeSubsystem subsystem) {
+  public DriveStop(DriveSubsystem subsystem) {
     m_subsystem = subsystem;
     addRequirements(m_subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,7 +33,7 @@ public class IntakeOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setSpeed(k_intakeSpeed);
+    m_subsystem.drive( 0, 0 );
   }
 
   // Called once the command ends or is interrupted.
@@ -45,6 +44,12 @@ public class IntakeOn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+
+    // if (){
+    // return true;
+    // }
+    // else {
+      return false;
+    // }
   }
 }
