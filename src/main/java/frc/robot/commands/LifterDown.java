@@ -31,9 +31,10 @@ public class LifterDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_subsystem.gearshift(true);
-    m_subsystem.SetSpeed(-0.5);
+    // 
     
+    m_subsystem.gearshift(true);
+    m_subsystem.SetSpeed(-1);    
   }
 
   // Called once the command ends or is interrupted.

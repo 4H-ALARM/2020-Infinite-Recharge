@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -34,6 +35,7 @@ public class ConveyorOut extends CommandBase {
   @Override
   public void execute() {
     m_subsystem.convayorSpeed(-1*k_conveyorSpeed);
+    SmartDashboard.putNumber("secretCode", 10);
   }
 
   // Called once the command ends or is interrupted.

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.revrobotics.ColorMatch;
@@ -36,6 +37,7 @@ public class ColorWheelSubsystem extends SubsystemBase {
   private String m_targetColor = "Green";
   private String m_ColorFound = "Unkown";
   private boolean m_colorMatched = false;
+  private String gameData;
 
   public final SendableChooser<String> m_colorChooser = new SendableChooser<>();
 
@@ -58,10 +60,14 @@ public class ColorWheelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run    
-    matchResult = colorMatcher.matchClosestColor(colorSensor.getColor());
+    matchResult = colorMatcher.matchClosestColor(colorSensor.getColor());    
+    // get color selected from dashboard
+    m_targetColor = m_colorChooser.getSelected(); 
+    // over-write that with the target color from the game data
+    // if there is no color selection in the game data it will stay
+    // with the color chosen from the dashboard
+    m_targetColor = getTargetFromDriverStation();
     checkForMatch();
-    m_targetColor = m_colorChooser.getSelected();
-
     updatedash();
     }
    
@@ -77,12 +83,38 @@ public class ColorWheelSubsystem extends SubsystemBase {
     m_colorWheelDeploy.set(out);
   }
 
-  private void updatedash(){    
-    SmartDashboard.putString("Color target", m_targetColor);
-    SmartDashboard.putString("Color detected", m_ColorFound);
-    SmartDashboard.putBoolean("Color matched", m_colorMatched);
-    SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
-    SmartDashboard.putBoolean("Color wheel deployed", m_colorWheelDeploy.get());
+  
+  private String getTargetFromDriverStation() {
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
+    String selectedColor = m_targetColor;
+    if(gameData.length() > 0)
+    {
+      switch (gameData.charAt(0))
+      {
+        case 'B' :
+          //Blue case code
+          selectedColor = "Blue";
+          break;
+        case 'G' :
+          //Green case code
+          selectedColor = "Green";
+          break;
+        case 'R' :
+          //Red case code
+          selectedColor = "Red";
+          break;
+        case 'Y' :
+          //Yellow case code
+          selectedColor = "Yellow";
+          break;
+        default :
+          //This is corrupt data
+          break;
+      }
+    } else {
+      //Code for no data received yet
+    }
+    return selectedColor;
   }
 
   private void checkForMatch() {
@@ -103,6 +135,14 @@ public class ColorWheelSubsystem extends SubsystemBase {
     } else {
       m_colorMatched = false;
     }
-
   }
+
+  private void updatedash(){    
+    SmartDashboard.putString("Color target", m_targetColor);
+    SmartDashboard.putString("Color detected", m_ColorFound);
+    SmartDashboard.putBoolean("Color matched", m_colorMatched);
+    SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
+    SmartDashboard.putBoolean("Color wheel deployed", m_colorWheelDeploy.get());
+  }
+  
 }
