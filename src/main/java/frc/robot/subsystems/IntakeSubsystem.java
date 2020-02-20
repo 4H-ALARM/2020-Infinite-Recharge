@@ -35,10 +35,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setSpeed(final double ballSpeed) {
     ballIntakeMotor.set(ballSpeed);
-    if (ballSpeed == k_intakeSpeed) {
-      m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
+    if (ballSpeed == 0.0) {
+      m_conveyorSubsystem.convayorSpeed(0.0);      
     } else {
-      m_conveyorSubsystem.convayorSpeed(0.0);
+      m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
     }
   }
 
@@ -54,6 +54,26 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setConveyor(ConveyorSubsystem conveyor) {
     m_conveyorSubsystem = conveyor;
+  }
+
+  public void toggle() {
+    if(m_intakeDeployed) {      
+      disable();
+    } else {
+      enable();
+    }
+  }
+
+  private void enable(){
+    deploy();
+    setSpeed(k_intakeSpeed);
+    m_intakeDeployed = true;
+  }
+
+  private void disable(){
+    setSpeed(0.0);
+    retract();
+    m_intakeDeployed = false;
   }
 
   private void updatedash(){

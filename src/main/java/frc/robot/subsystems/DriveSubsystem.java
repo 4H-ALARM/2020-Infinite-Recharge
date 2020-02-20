@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
 
@@ -25,6 +27,9 @@ public class DriveSubsystem extends SubsystemBase {
   private final WPI_TalonSRX rightRearDriveTalonSRX = new WPI_TalonSRX(k_rightRearDriveAddress);
   private final SpeedControllerGroup m_right = new SpeedControllerGroup(rightFrontDriveTalonSRX, rightRearDriveTalonSRX);
   private final DifferentialDrive driveSubsystem = new DifferentialDrive(m_left, m_right); 
+
+  private final AnalogInput m_sonar = new AnalogInput(0);
+  private Double m_sonarReading = 0.0;
   
   // private final Spark leftDrive = new Spark(1);
   // private final Spark rightDrive = new Spark(2);
@@ -44,12 +49,19 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_sonarReading = m_sonar.getAverageVoltage();
+    updatedash();
   }
 
   public void drive(final double lSpeed, final double rSpeed) {
 
    driveSubsystem.tankDrive(lSpeed, rSpeed, k_squareInputs);
     
+  }
+
+  private void updatedash(){
+    // SmartDashboard.putNumber("gyro Measurement", m_gyro.getAngle());
+    SmartDashboard.putNumber("Sonar Reading", m_sonarReading);
   }
   
 }

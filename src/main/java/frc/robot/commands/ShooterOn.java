@@ -7,17 +7,17 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterPidSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ShooterOn extends CommandBase {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ShooterSubsystem m_subsystem;
+  private final ShooterPidSubsystem m_subsystem;
   /**
    * Creates a new ShooterOn.
    */
-  public ShooterOn(ShooterSubsystem subsystem) {
+  public ShooterOn(ShooterPidSubsystem subsystem) {
     m_subsystem = subsystem;
     addRequirements(m_subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,7 +31,7 @@ public class ShooterOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setShooterSpeed(0.5);
+    m_subsystem.enable();
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +42,6 @@ public class ShooterOn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

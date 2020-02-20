@@ -34,9 +34,6 @@ public class ConveyorStop extends CommandBase {
   @Override
   public void execute() {
     m_subsystem.convayorSpeed(0.0);
-    if(SmartDashboard.getNumber("secretCode", 10) == 5505){
-      SmartDashboard.putNumber("Stonks count", 100);
-    }
   }
 
   // Called once the command ends or is interrupted.

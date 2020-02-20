@@ -20,6 +20,7 @@ import frc.robot.commands.ColorWheelSpinIn;
 import frc.robot.commands.ColorWheelStop;
 import frc.robot.commands.ConveyorIn;
 import frc.robot.commands.ConveyorOut;
+import frc.robot.commands.AutoCommand;
 import frc.robot.commands.ConveyorStop;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStraight;
@@ -48,6 +49,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeOn;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.AutoCommand;
 //import frc.robot.commands.AutonomousDrive;
 
 
@@ -61,7 +63,8 @@ import static frc.robot.Constants.*;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems here..
+  public static final AutoCommand AutoCommand = null;
+// The robot's subsystems here..
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -70,9 +73,12 @@ public class RobotContainer {
   private final HookSubsystem m_hookSubsystem = new HookSubsystem(); 
   private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
   private final ColorWheelSubsystem m_colorWheelSubsystem = new ColorWheelSubsystem();
+
+  public final AutoCommand m_AutoCommand = new AutoCommand(m_driveSubsystem, m_shooterpid);
+  public String m_autoSelection = "NONE";
   
   // and commands are defined here...
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+ // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveCommand driveCommand;
   private final HookDriveCommand hookDriveCommand;
   // controllers
@@ -85,7 +91,8 @@ public class RobotContainer {
   // public static final ADIS16448_IMU m_imu = new ADIS16448_IMU();
 
   private boolean m_useBox = k_useBox;  // start by assuming using control box rather than Logitech
-  public final SendableChooser<String> m_controllerChooser = new SendableChooser<>();
+  public final SendableChooser<String> m_controllerChooser = new SendableChooser<>();  
+  public final SendableChooser<String> m_AutoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -94,6 +101,8 @@ public class RobotContainer {
     // Configure the button bindings
 
     configureButtonBindings();
+
+    getAutonomousSelection();
 
     m_colorWheelSubsystem.register();
     m_shooterpid.register();
@@ -175,14 +184,16 @@ public class RobotContainer {
         .whenReleased(new LifterStop(m_liftSubsystem)); 
 
     //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
-
     new JoystickButton(BoxController, 3)
-        .whenPressed(new IntakeOff(m_intakeSubsystem)); // Janky @$$
-    new JoystickButton(BoxController, 3)
-        .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+            .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
 
-    new JoystickButton(BoxController, 5)
-        .whenPressed(new IntakeDeploy(m_intakeSubsystem));
+    // new JoystickButton(BoxController, 3)
+    //     .whenPressed(new IntakeOff(m_intakeSubsystem)); // Janky @$$
+    // new JoystickButton(BoxController, 3)
+    //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+
+    // new JoystickButton(BoxController, 5)
+    //     .whenPressed(new IntakeDeploy(m_intakeSubsystem));
     // new JoystickButton(BoxController, 5)
     //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
 
@@ -234,16 +245,19 @@ public class RobotContainer {
         .whenReleased(new LifterStop(m_liftSubsystem)); 
 
     //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
-    
-    new JoystickButton(BoxController, 6)
-        .whenPressed(new IntakeDeploy(m_intakeSubsystem));
+    new JoystickButton(BoxController,6)
+            .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
+
+
+    // new JoystickButton(BoxController, 6)
+    //     .whenPressed(new IntakeDeploy(m_intakeSubsystem));
     // new JoystickButton(BoxController, 6) // TODO
     //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
 
-    new JoystickButton(BoxController, 7)
-        .whenPressed(new IntakeOn(m_intakeSubsystem)); 
-    new JoystickButton(BoxController, 7)
-        .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+    // new JoystickButton(BoxController, 7)
+    //     .whenPressed(new IntakeOn(m_intakeSubsystem)); 
+    // new JoystickButton(BoxController, 7)
+    //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
         
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ the god color wheel deploy
 
@@ -277,6 +291,21 @@ public class RobotContainer {
       m_useBox = false;
     } else {
       m_useBox = true;
+    }
+  }
+
+  private void getAutonomousSelection() {
+    m_AutoChooser.setDefaultOption("NONE", "NONE");
+    m_AutoChooser.addOption("DRIVE", "DRIVE");
+    m_AutoChooser.addOption("DRIVE+SHOOT", "DRIVE+SHOOT");
+    SmartDashboard.putData("Autonomous Selection", m_controllerChooser);
+
+    if (m_AutoChooser.getSelected() == "DRIVE") {
+      m_autoSelection = "DRIVE";
+    } else if (m_AutoChooser.getSelected() == "DRIVE+SHOOT") {
+      m_autoSelection = "DRIVE+SHOOT";
+    } else {
+      m_autoSelection = "NONE";
     }
   }
 

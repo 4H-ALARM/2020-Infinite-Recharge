@@ -99,8 +99,6 @@ public class ShooterPidSubsystem extends PIDSubsystem {
     if(this.isEnabled()) {
       disable();
     } else {
-      // m_setPoint = SmartDashboard.getNumber("Shooter set point", k_shooterTargetRPS);
-      // setSetpoint(m_setPoint);
       enable();
     }
   }
