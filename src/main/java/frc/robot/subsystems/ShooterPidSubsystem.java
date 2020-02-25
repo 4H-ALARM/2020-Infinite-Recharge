@@ -19,87 +19,87 @@ import static frc.robot.Constants.*;
 
 public class ShooterPidSubsystem extends PIDSubsystem {
 
-  private final WPI_VictorSPX m_shooterMotor = new WPI_VictorSPX(k_ShooterMotorAddress);
-  private final Encoder m_encoder = new Encoder(k_encoder1Ch1DIO, k_encoder1Ch2DIO, true);
-  private final WPI_VictorSPX m_shooterGate = new WPI_VictorSPX(k_ShooterInAddress);
-  private final DigitalInput m_ballTopDetector = new DigitalInput(k_BallTopDetector);
-  private final SimpleMotorFeedforward m_shooterFeedforward = new SimpleMotorFeedforward(k_sVolts,k_vVoltSecondsPerRotation);
-  private ConveyorSubsystem m_conveyorSubsystem = null;
+ private final WPI_VictorSPX m_shooterMotor = new WPI_VictorSPX(k_ShooterMotorAddress);
+ private final Encoder m_encoder = new Encoder(k_encoder1Ch1DIO, k_encoder1Ch2DIO, true);
+ private final WPI_VictorSPX m_shooterGate = new WPI_VictorSPX(k_ShooterInAddress);
+ private final DigitalInput m_ballTopDetector = new DigitalInput(k_BallTopDetector);
+ private final SimpleMotorFeedforward m_shooterFeedforward = new SimpleMotorFeedforward(k_sVolts, k_vVoltSecondsPerRotation);
+ private ConveyorSubsystem m_conveyorSubsystem = null;
 
-  private double m_setPoint = k_shooterTargetRPS; 
+ private double m_setPoint = k_shooterTargetRPS;
 
 
-  private boolean m_ballDetected = false;
+ private boolean m_ballDetected = false;
 
-  /**
-   * Creates a new ShooterPidSubsystem.
-   */
+ /**
+  * Creates a new ShooterPidSubsystem.
+  */
 
-  public ShooterPidSubsystem() {
-    super(new PIDController(kP, kI, kD));
-    getController().setTolerance(k_shooterToleranceRPS);
-    m_encoder.setDistancePerPulse(k_encoderDistancePerPulse);
-    setSetpoint(m_setPoint);
-    // The PIDController used by the subsystem
-    this.init();
+ public ShooterPidSubsystem() {
+  super(new PIDController(kP, kI, kD));
+  getController().setTolerance(k_shooterToleranceRPS);
+  m_encoder.setDistancePerPulse(k_encoderDistancePerPulse);
+  setSetpoint(m_setPoint);
+  // The PIDController used by the subsystem
+  this.init();
+ }
+
+ @Override
+ public void useOutput(double output, double setpoint) {
+  // Multiply by -1 to get the motor turning the right way
+  m_shooterMotor.setVoltage(-1 * (output + m_shooterFeedforward.calculate(setpoint)));
+  m_ballDetected = true; // until detector attached alway assume ball in place  later use this: m_ballTopDetector.get();
+  updatedash();
+ }
+
+ @Override
+ public double getMeasurement() {
+  // Return the process variable measurement here
+  return m_encoder.getRate();
+ }
+
+ public boolean atSetpoint() {
+  return m_controller.atSetpoint();
+ }
+
+ public void runFeeder() {
+  if (m_ballDetected && (this.atSetpoint()) && (this.isEnabled())) {
+   m_shooterGate.set(k_feederSpeed);
+   m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
+  } else {
+   m_shooterGate.set(0.0);
   }
+ }
 
-  @Override
-  public void useOutput(double output, double setpoint) {
-    // Multiply by -1 to get the motor turning the right way
-    m_shooterMotor.setVoltage(-1*(output + m_shooterFeedforward.calculate(setpoint)));
-    m_ballDetected = true;  // until detector attached alway assume ball in place  later use this: m_ballTopDetector.get();
-    updatedash();
-  }
+ public void stopFeeder() {
+  m_shooterGate.set(0);
+  m_conveyorSubsystem.convayorSpeed(0);
+ }
 
-  @Override
-  public double getMeasurement() {
-    // Return the process variable measurement here
-    return m_encoder.getRate();
-  }
+ public void setConveyor(ConveyorSubsystem conveyor) {
+  m_conveyorSubsystem = conveyor;
+ }
 
-  public boolean atSetpoint() {
-    return m_controller.atSetpoint();
-  }
+ private void init() {
+  m_encoder.setDistancePerPulse(k_pulsePerRev);
+  m_encoder.setMinRate(k_minRate);
+  m_encoder.reset();
+  this.disable();
+ }
+ private void updatedash() {
+  SmartDashboard.putNumber("encoder Measurement", getMeasurement());
+  SmartDashboard.putNumber("Shooter set point", m_setPoint);
+  SmartDashboard.putNumber("shooter set", m_shooterMotor.get());
+  SmartDashboard.putNumber("feeder set", m_shooterGate.get());
+  SmartDashboard.putBoolean("shooter ready", (this.atSetpoint() && this.isEnabled()));
+  SmartDashboard.putBoolean("Ball Detected", m_ballDetected);
+ }
 
-  public void runFeeder() {
-    if (m_ballDetected && (this.atSetpoint()) && (this.isEnabled())) {
-      m_shooterGate.set(k_feederSpeed);
-      m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
-    } else {
-      m_shooterGate.set(0.0);
-    }
+ public void toggle() {
+  if (this.isEnabled()) {
+   disable();
+  } else {
+   enable();
   }
-
-  public void stopFeeder() {
-    m_shooterGate.set(0);
-    m_conveyorSubsystem.convayorSpeed(0);
-  }
-
-  public void setConveyor(ConveyorSubsystem conveyor) {
-    m_conveyorSubsystem = conveyor;
-  }
-
-  private void init() {
-    m_encoder.setDistancePerPulse(k_pulsePerRev);
-    m_encoder.setMinRate(k_minRate);
-    m_encoder.reset();
-    this.disable();
-  }
-  private void updatedash(){
-    SmartDashboard.putNumber("encoder Measurement", getMeasurement());
-    SmartDashboard.putNumber("Shooter set point",m_setPoint);
-    SmartDashboard.putNumber("shooter set", m_shooterMotor.get());
-    SmartDashboard.putNumber("feeder set", m_shooterGate.get());
-    SmartDashboard.putBoolean("shooter ready", (this.atSetpoint() && this.isEnabled()));
-    SmartDashboard.putBoolean("Ball Detected", m_ballDetected);
-  }
-
-  public void toggle() {
-    if(this.isEnabled()) {
-      disable();
-    } else {
-      enable();
-    }
-  }
+ }
 }

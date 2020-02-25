@@ -21,6 +21,7 @@ import frc.robot.commands.ColorWheelStop;
 import frc.robot.commands.ConveyorIn;
 import frc.robot.commands.ConveyorOut;
 import frc.robot.commands.AutoCommand;
+import frc.robot.commands.AutoCommandDS;
 import frc.robot.commands.ConveyorStop;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveStraight;
@@ -43,7 +44,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterPidSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import com.analog.adis16448.frc.ADIS16448_IMU ;
+import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeOn;
@@ -63,253 +64,253 @@ import static frc.robot.Constants.*;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  public static final AutoCommand AutoCommand = null;
-// The robot's subsystems here..
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final ConveyorSubsystem m_conveyourSubsystem = new ConveyorSubsystem();
-  private final ShooterPidSubsystem m_shooterpid = new ShooterPidSubsystem();
-  private final HookSubsystem m_hookSubsystem = new HookSubsystem(); 
-  private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
-  private final ColorWheelSubsystem m_colorWheelSubsystem = new ColorWheelSubsystem();
+ public static final AutoCommand AutoCommand = null;
+ // The robot's subsystems here..
+ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+ private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+ private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+ private final ConveyorSubsystem m_conveyourSubsystem = new ConveyorSubsystem();
+ private final ShooterPidSubsystem m_shooterpid = new ShooterPidSubsystem();
+ private final HookSubsystem m_hookSubsystem = new HookSubsystem();
+ private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+ private final ColorWheelSubsystem m_colorWheelSubsystem = new ColorWheelSubsystem();
 
-  public final AutoCommand m_AutoCommand = new AutoCommand(m_driveSubsystem, m_shooterpid);
-  public String m_autoSelection = "NONE";
-  
-  // and commands are defined here...
+ public final AutoCommand m_AutoCommand = new AutoCommand(m_driveSubsystem, m_shooterpid);
+ //public final AutoCommand m_AutoCommand = new AutoCommandDS(m_driveSubsystem, m_shooterpid);
+
+ public String m_autoSelection = "NONE";
+
+ // and commands are defined here...
  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final DriveCommand driveCommand;
-  private final HookDriveCommand hookDriveCommand;
-  // controllers
-  private final XboxController xboxController = new XboxController(k_xboxController);
-  private final Joystick BoxController = new Joystick(k_boxController);
+ private final DriveCommand driveCommand;
+ private final HookDriveCommand hookDriveCommand;
+ // controllers
+ private final XboxController xboxController = new XboxController(k_xboxController);
+ private final Joystick BoxController = new Joystick(k_boxController);
 
-  // make camera, imu  and compressor public parts of the robtot to be run from 
-  // the robot class rather than a seperate subsystem
-  public final Compressor m_compressor = new Compressor(k_PCMModule);
-  // public static final ADIS16448_IMU m_imu = new ADIS16448_IMU();
+ // make camera, imu  and compressor public parts of the robtot to be run from 
+ // the robot class rather than a seperate subsystem
+ public final Compressor m_compressor = new Compressor(k_PCMModule);
+ // public static final ADIS16448_IMU m_imu = new ADIS16448_IMU();
 
-  private boolean m_useBox = k_useBox;  // start by assuming using control box rather than Logitech
-  public final SendableChooser<String> m_controllerChooser = new SendableChooser<>();  
-  public final SendableChooser<String> m_AutoChooser = new SendableChooser<>();
+ private boolean m_useBox = k_useBox; // start by assuming using control box rather than Logitech
+ public final SendableChooser < String > m_controllerChooser = new SendableChooser < > ();
+ public final SendableChooser < String > m_AutoChooser = new SendableChooser < > ();
 
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the button bindings
+ /**
+  * The container for the robot.  Contains subsystems, OI devices, and commands.
+  */
+ public RobotContainer() {
+  // Configure the button bindings
 
-    configureButtonBindings();
+  configureButtonBindings();
 
-    getAutonomousSelection();
+  getAutonomousSelection();
 
-    m_colorWheelSubsystem.register();
-    m_shooterpid.register();
-    m_hookSubsystem.register();
+  m_colorWheelSubsystem.register();
+  m_shooterpid.register();
+  m_hookSubsystem.register();
 
-    // tell the shooter and intake about the coveyor to use
-    m_shooterpid.setConveyor(m_conveyourSubsystem);
-    m_intakeSubsystem.setConveyor(m_conveyourSubsystem);
+  // tell the shooter and intake about the coveyor to use
+  m_shooterpid.setConveyor(m_conveyourSubsystem);
+  m_intakeSubsystem.setConveyor(m_conveyourSubsystem);
 
-    driveCommand = new DriveCommand(m_driveSubsystem, () -> xboxController.getY(Hand.kLeft), () -> xboxController.getY(Hand.kRight));
-    m_driveSubsystem.setDefaultCommand(driveCommand);
-    
-    hookDriveCommand = new HookDriveCommand(m_hookSubsystem, () -> BoxController.getY());
-    m_hookSubsystem.setDefaultCommand(hookDriveCommand);  
+  driveCommand = new DriveCommand(m_driveSubsystem, () -> xboxController.getY(Hand.kLeft), () -> xboxController.getY(Hand.kRight));
+  m_driveSubsystem.setDefaultCommand(driveCommand);
 
-    //AutoDirveCommand = new AutonomousDrive(m_driveSubsystem);
+  hookDriveCommand = new HookDriveCommand(m_hookSubsystem, () -> BoxController.getY());
+  m_hookSubsystem.setDefaultCommand(hookDriveCommand);
+
+  //AutoDirveCommand = new AutonomousDrive(m_driveSubsystem);
+ }
+
+ /**
+  * Use this method to define your button->command mappings.  Buttons can be created by
+  * instantiating a {@link GenericHID} or one of its subclasses ({@link
+  * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+  * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+  */
+ private void configureButtonBindings() {
+  setXboxButtons();
+  // chooseController();  don't call as it does not do a valid selection  TODO fix if possible
+  if (m_useBox) { // our control box
+   SmartDashboard.putString("Controler Selected", "ALARM BOX");
+   setBoxButtons(); // or
+  } else { // logitech
+   SmartDashboard.putString("Controler Selected", "Logitech");
+   setJoystickButtons();
   }
-
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    setXboxButtons();
-    // chooseController();  don't call as it does not do a valid selection  TODO fix if possible
-    if (m_useBox) {     // our control box
-      SmartDashboard.putString("Controler Selected", "ALARM BOX" );
-      setBoxButtons();  // or
-    } else {            // logitech
-      SmartDashboard.putString("Controler Selected", "Logitech" );
-      setJoystickButtons();
-    }    
-    }
+ }
 
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
+ /**
+  * Use this to pass the autonomous command to the main {@link Robot} class.
+  *
+  * @return the command to run in autonomous
+  */
+ public Command getAutonomousCommand() {
 
-    return null  /*DriveForwards*/ ;
-  }
+  return null /*DriveForwards*/ ;
+ }
 
-  private void setXboxButtons(){
-    new JoystickButton(xboxController, XboxController.Button.kY.value)
-        .whenPressed(new winchLockOn(m_liftSubsystem));
+ private void setXboxButtons() {
+  new JoystickButton(xboxController, XboxController.Button.kY.value)
+   .whenPressed(new winchLockOn(m_liftSubsystem));
 
-    new JoystickButton(xboxController, XboxController.Button.kA.value)
-        .whenPressed(new winchLockOff(m_liftSubsystem));
-  }
+  new JoystickButton(xboxController, XboxController.Button.kA.value)
+   .whenPressed(new winchLockOff(m_liftSubsystem));
+ }
 
-  private void setBoxButtons(){
-    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter toggle on/off
-   
-    new JoystickButton(BoxController, 11)
-        .whenPressed(new InstantCommand(m_shooterpid::toggle, m_shooterpid)); 
-    new JoystickButton(BoxController, 6)
-        .whenPressed(new InstantCommand(m_shooterpid::disable, m_shooterpid)); 
+ private void setBoxButtons() {
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter toggle on/off
 
-    new JoystickButton(BoxController, 7)
-        .whenPressed(new FeedShooter(m_shooterpid)); 
-    new JoystickButton(BoxController, 7)
-        .whenReleased(new StopFeedingShooter(m_shooterpid));
+  new JoystickButton(BoxController, 7)
+   .whenPressed(new InstantCommand(m_shooterpid::toggle, m_shooterpid));
+  new JoystickButton(BoxController, 8)
+   .whenPressed(new InstantCommand(m_shooterpid::disable, m_shooterpid));
 
-    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Lifter
+  new JoystickButton(BoxController, 6)
+   .whenPressed(new FeedShooter(m_shooterpid));
+  new JoystickButton(BoxController, 6)
+   .whenReleased(new StopFeedingShooter(m_shooterpid));
 
-    new JoystickButton(BoxController, 1)
-        .whenPressed(new LifterDown(m_liftSubsystem)); 
-    new JoystickButton(BoxController, 1)
-        .whenReleased(new LifterStop(m_liftSubsystem));
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Lifter
 
-    new JoystickButton(BoxController, 2)
-        .whenPressed(new LifterUp(m_liftSubsystem)); 
-    new JoystickButton(BoxController, 2)
-        .whenReleased(new LifterStop(m_liftSubsystem)); 
+  new JoystickButton(BoxController, 4)
+   .whenPressed(new LifterDown(m_liftSubsystem));
+  new JoystickButton(BoxController, 4)
+   .whenReleased(new LifterStop(m_liftSubsystem));
 
-    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
-    new JoystickButton(BoxController, 3)
-            .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
+  new JoystickButton(BoxController, 3)
+   .whenPressed(new LifterUp(m_liftSubsystem));
+  new JoystickButton(BoxController, 3)
+   .whenReleased(new LifterStop(m_liftSubsystem));
 
-    // new JoystickButton(BoxController, 3)
-    //     .whenPressed(new IntakeOff(m_intakeSubsystem)); // Janky @$$
-    // new JoystickButton(BoxController, 3)
-    //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
+  new JoystickButton(BoxController, 9)
+   .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
 
-    // new JoystickButton(BoxController, 5)
-    //     .whenPressed(new IntakeDeploy(m_intakeSubsystem));
-    // new JoystickButton(BoxController, 5)
-    //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+  // new JoystickButton(BoxController, 3)
+  //     .whenPressed(new IntakeOff(m_intakeSubsystem));
+  // new JoystickButton(BoxController, 3)
+  //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+
+  // new JoystickButton(BoxController, 5)
+  //     .whenPressed(new IntakeDeploy(m_intakeSubsystem));
+  // new JoystickButton(BoxController, 5)
+  //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
 
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ conveyor
 
-    new JoystickButton(BoxController, 4)
-        .whenPressed(new ConveyorIn(m_conveyourSubsystem)); 
-    new JoystickButton(BoxController, 4)
-        .whenReleased(new ConveyorStop(m_conveyourSubsystem));    
+  new JoystickButton(BoxController, 5)
+   .whenPressed(new ConveyorIn(m_conveyourSubsystem));
+  new JoystickButton(BoxController, 5)
+   .whenReleased(new ConveyorStop(m_conveyourSubsystem));
 
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ the god color wheel deploy
 
-    new JoystickButton(BoxController, 12)
-      .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem));
-    // new JoystickButton(BoxController, 12)
-    //   .whenReleased(new ColorWheelDeployIn(m_colorWheelSubsystem));
-      
-    new JoystickButton(BoxController, 8)
-      .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
-    new JoystickButton(BoxController, 8)
-      .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
+  new JoystickButton(BoxController, 12)
+   .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem));
+  // new JoystickButton(BoxController, 12)
+  //   .whenReleased(new ColorWheelDeployIn(m_colorWheelSubsystem));
 
-  }
+  new JoystickButton(BoxController, 10)
+   .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
+  new JoystickButton(BoxController, 10)
+   .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
 
-  private void setJoystickButtons(){
-    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter
-   
-    // Shooter is toggled by the trigger button.
-    new JoystickButton(BoxController, 1)
-        .whenPressed(new InstantCommand(m_shooterpid::toggle, m_shooterpid)); 
+ }
 
-    // Feed is enabled when button 3 is pressed down.
-    // The conveyor will always run in while button 3 is pressed down.
-    new JoystickButton(BoxController, 3)
-        .whenPressed(new FeedShooter(m_shooterpid)); 
-    new JoystickButton(BoxController, 3)
-        .whenReleased(new StopFeedingShooter(m_shooterpid));
+ private void setJoystickButtons() {
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Shooter
 
-    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Lifter
+  // Shooter is toggled by the trigger button.
+  new JoystickButton(BoxController, 1)
+   .whenPressed(new InstantCommand(m_shooterpid::toggle, m_shooterpid));
 
-    new JoystickButton(BoxController, 2) // TODO
-        .whenPressed(new LifterDown(m_liftSubsystem)); 
-    new JoystickButton(BoxController, 2) // TODO
-        .whenReleased(new LifterStop(m_liftSubsystem));
+  // Feed is enabled when button 3 is pressed down.
+  // The conveyor will always run in while button 3 is pressed down.
+  new JoystickButton(BoxController, 3)
+   .whenPressed(new FeedShooter(m_shooterpid));
+  new JoystickButton(BoxController, 3)
+   .whenReleased(new StopFeedingShooter(m_shooterpid));
 
-    new JoystickButton(BoxController, 3) // TODO
-        .whenPressed(new LifterUp(m_liftSubsystem)); 
-    new JoystickButton(BoxController, 3) // TODO
-        .whenReleased(new LifterStop(m_liftSubsystem)); 
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Lifter
 
-    //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
-    new JoystickButton(BoxController,6)
-            .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
+  new JoystickButton(BoxController, 2) // TODO
+   .whenPressed(new LifterDown(m_liftSubsystem));
+  new JoystickButton(BoxController, 2) // TODO
+   .whenReleased(new LifterStop(m_liftSubsystem));
+
+  new JoystickButton(BoxController, 3) // TODO
+   .whenPressed(new LifterUp(m_liftSubsystem));
+  new JoystickButton(BoxController, 3) // TODO
+   .whenReleased(new LifterStop(m_liftSubsystem));
+
+  //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
+  new JoystickButton(BoxController, 6)
+   .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
 
 
-    // new JoystickButton(BoxController, 6)
-    //     .whenPressed(new IntakeDeploy(m_intakeSubsystem));
-    // new JoystickButton(BoxController, 6) // TODO
-    //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+  // new JoystickButton(BoxController, 6)
+  //     .whenPressed(new IntakeDeploy(m_intakeSubsystem));
+  // new JoystickButton(BoxController, 6) // TODO
+  //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
 
-    // new JoystickButton(BoxController, 7)
-    //     .whenPressed(new IntakeOn(m_intakeSubsystem)); 
-    // new JoystickButton(BoxController, 7)
-    //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
-        
+  // new JoystickButton(BoxController, 7)
+  //     .whenPressed(new IntakeOn(m_intakeSubsystem)); 
+  // new JoystickButton(BoxController, 7)
+  //     .whenReleased(new IntakeOff(m_intakeSubsystem)); 
+
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ the god color wheel deploy
 
-    new JoystickButton(BoxController, 8) // TODO
-       .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
-    new JoystickButton(BoxController, 8) // TODO
-       .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
+  new JoystickButton(BoxController, 8) // TODO
+   .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
+  new JoystickButton(BoxController, 8) // TODO
+   .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
 
 
-    new JoystickButton(BoxController, 4) // TODO
-    .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem));
+  new JoystickButton(BoxController, 4) // TODO
+   .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem));
   // new JoystickButton(BoxController, 4) // TODO
   //   .whenReleased(new ColorWheelDeployIn(m_colorWheelSubsystem));
-  
+
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ conveyor
 
   // The conveyor can be ran out by pressing button 2.
-    new JoystickButton(BoxController, 5)
-        .whenPressed(new ConveyorOut(m_conveyourSubsystem)); 
-    new JoystickButton(BoxController, 5)
-        .whenReleased(new ConveyorStop(m_conveyourSubsystem));    
+  new JoystickButton(BoxController, 5)
+   .whenPressed(new ConveyorOut(m_conveyourSubsystem));
+  new JoystickButton(BoxController, 5)
+   .whenReleased(new ConveyorStop(m_conveyourSubsystem));
 
+ }
+
+ private void chooseController() {
+  m_controllerChooser.setDefaultOption("ALARM BOX", "ALARM BOX");
+  m_controllerChooser.addOption("Logitech", "Logitech");
+  SmartDashboard.putData("Controller", m_controllerChooser);
+
+  if (m_controllerChooser.getSelected() == "Logitech") {
+   m_useBox = false;
+  } else {
+   m_useBox = true;
   }
+ }
 
-  private void chooseController() {
-    m_controllerChooser.setDefaultOption("ALARM BOX", "ALARM BOX");
-    m_controllerChooser.addOption("Logitech", "Logitech");
-    SmartDashboard.putData("Controller", m_controllerChooser);
+ private void getAutonomousSelection() {
+  m_AutoChooser.setDefaultOption("NONE", "NONE");
+  m_AutoChooser.addOption("DRIVE", "DRIVE");
+  m_AutoChooser.addOption("DRIVE+SHOOT", "DRIVE+SHOOT");
+  SmartDashboard.putData("Autonomous Selection", m_AutoChooser);
 
-    if (m_controllerChooser.getSelected() == "Logitech") {
-      m_useBox = false;
-    } else {
-      m_useBox = true;
-    }
+
+  if (m_AutoChooser.getSelected() == "DRIVE") {
+   m_autoSelection = "DRIVE";
+  } else if (m_AutoChooser.getSelected() == "DRIVE+SHOOT") {
+   m_autoSelection = "DRIVE+SHOOT";
+  } else {
+   m_autoSelection = "NONE";
   }
-
-  private void getAutonomousSelection() {
-    m_AutoChooser.setDefaultOption("NONE", "NONE");
-    m_AutoChooser.addOption("DRIVE", "DRIVE");
-    m_AutoChooser.addOption("DRIVE+SHOOT", "DRIVE+SHOOT");
-    SmartDashboard.putData("Autonomous Selection", m_controllerChooser);
-
-    if (m_AutoChooser.getSelected() == "DRIVE") {
-      m_autoSelection = "DRIVE";
-    } else if (m_AutoChooser.getSelected() == "DRIVE+SHOOT") {
-      m_autoSelection = "DRIVE+SHOOT";
-    } else {
-      m_autoSelection = "NONE";
-    }
-  }
-
-  public Command autonCommand(){
-    return (new DriveStraight(m_driveSubsystem)).withTimeout(1);
-  }
+  k_Automode = m_autoSelection;
+ }
 }

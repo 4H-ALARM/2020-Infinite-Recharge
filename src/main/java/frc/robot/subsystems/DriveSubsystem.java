@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -54,9 +53,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(final double lSpeed, final double rSpeed) {
-
    driveSubsystem.tankDrive(lSpeed, rSpeed, k_squareInputs);
-    
+
   }
 
   private void updatedash(){

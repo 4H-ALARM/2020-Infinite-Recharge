@@ -15,69 +15,69 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.Constants.*;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final WPI_VictorSPX ballIntakeMotor = new WPI_VictorSPX(k_ballIntakeMotorAddress);
-  private final Solenoid IntakeDeploy = new Solenoid(k_PCMModule, k_intakeDeploy);
-  private boolean m_intakeDeployed = false;
-  private ConveyorSubsystem m_conveyorSubsystem = null;
+ private final WPI_VictorSPX ballIntakeMotor = new WPI_VictorSPX(k_ballIntakeMotorAddress);
+ private final Solenoid IntakeDeploy = new Solenoid(k_PCMModule, k_intakeDeploy);
+ private boolean m_intakeDeployed = false;
+ private ConveyorSubsystem m_conveyorSubsystem = null;
 
-  /**
-   * Creates a new IntakeSubsystem.
-   */
-  public IntakeSubsystem() {
+ /**
+  * Creates a new IntakeSubsystem.
+  */
+ public IntakeSubsystem() {
 
+ }
+
+ @Override
+ public void periodic() {
+  // This method will be called once per scheduler run
+  updatedash();
+ }
+
+ public void setSpeed(final double ballSpeed) {
+  ballIntakeMotor.set(-ballSpeed);
+  if (ballSpeed == 0.0) {
+   m_conveyorSubsystem.convayorSpeed(0.0);
+  } else {
+   m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
   }
+ }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    updatedash();
-  }
+ public void deploy() {
+  IntakeDeploy.set(true);
+  m_intakeDeployed = true;
+ }
 
-  public void setSpeed(final double ballSpeed) {
-    ballIntakeMotor.set(ballSpeed);
-    if (ballSpeed == 0.0) {
-      m_conveyorSubsystem.convayorSpeed(0.0);      
-    } else {
-      m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
-    }
-  }
+ public void retract() {
+  IntakeDeploy.set(false);
+  m_intakeDeployed = false;
+ }
 
-  public void deploy(){
-    IntakeDeploy.set(true);
-    m_intakeDeployed = true;
-  }
+ public void setConveyor(ConveyorSubsystem conveyor) {
+  m_conveyorSubsystem = conveyor;
+ }
 
-  public void retract(){
-    IntakeDeploy.set(false);
-    m_intakeDeployed = false;
+ public void toggle() {
+  if (m_intakeDeployed) {
+   disable();
+  } else {
+   enable();
   }
+ }
 
-  public void setConveyor(ConveyorSubsystem conveyor) {
-    m_conveyorSubsystem = conveyor;
-  }
+ private void enable() {
+  deploy();
+  setSpeed(k_intakeSpeed);
+  m_intakeDeployed = true;
+ }
 
-  public void toggle() {
-    if(m_intakeDeployed) {      
-      disable();
-    } else {
-      enable();
-    }
-  }
+ private void disable() {
+  setSpeed(0.0);
+  retract();
+  m_intakeDeployed = false;
+ }
 
-  private void enable(){
-    deploy();
-    setSpeed(k_intakeSpeed);
-    m_intakeDeployed = true;
-  }
-
-  private void disable(){
-    setSpeed(0.0);
-    retract();
-    m_intakeDeployed = false;
-  }
-
-  private void updatedash(){
-    SmartDashboard.putBoolean("Intake Deployed",m_intakeDeployed);
-    SmartDashboard.putNumber("Intake motor set", ballIntakeMotor.get());
-  }
+ private void updatedash() {
+  SmartDashboard.putBoolean("Intake Deployed", m_intakeDeployed);
+  SmartDashboard.putNumber("Intake motor set", ballIntakeMotor.get());
+ }
 }

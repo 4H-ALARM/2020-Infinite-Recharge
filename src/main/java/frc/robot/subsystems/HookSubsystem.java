@@ -10,9 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import com.ctre.phoenix.motorcontrol.can.*;
-
 import static frc.robot.Constants.*;
 
 public class HookSubsystem extends SubsystemBase {
@@ -41,5 +39,4 @@ public class HookSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("gyro Measurement", m_gyro.getAngle());
     SmartDashboard.putNumber("hook motor set", m_hookMotor.get());
   }
-    
 }

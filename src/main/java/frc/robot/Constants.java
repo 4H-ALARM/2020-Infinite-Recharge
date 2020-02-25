@@ -20,70 +20,72 @@ import edu.wpi.first.wpilibj.SPI;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-        // CAN bus address - PDP = 0, PCM = 1 by default
-    public static final int k_leftFrontDriveAddress = 2;    // TalonSRX X
-    public static final int k_leftRearDriveAddress = 3;     // TalonSRX X
-    public static final int k_rightFrontDriveAddress = 4;   // TalonSRX X
-    public static final int k_rightRearDriveAddress = 5;    // TalonSRX X
-    public static final int k_ColorWheelMotorAddress = 6;   // VictorSPX X
-    public static final int k_ballIntakeMotorAddress = 7;   // VictorSPX X
-    public static final int k_BeltConveyorAddress = 8;      // VictorSPX X
-    public static final int k_ShooterInAddress = 9;         // VictorSPX X  
-    public static final int k_ShooterMotorAddress = 10;     // VictorSPX X
-    public static final int k_liftMotorAddress = 11;        // VictorSPX X
-    public static final int k_hookMotorAddress = 12;        // VictorSPX X
+ // CAN bus address - PDP = 0, PCM = 1 by default
+ public static final int k_leftFrontDriveAddress = 2; // TalonSRX X
+ public static final int k_leftRearDriveAddress = 3; // TalonSRX X
+ public static final int k_rightFrontDriveAddress = 4; // TalonSRX X
+ public static final int k_rightRearDriveAddress = 5; // TalonSRX X
+ public static final int k_ColorWheelMotorAddress = 6; // VictorSPX X
+ public static final int k_ballIntakeMotorAddress = 7; // VictorSPX X
+ public static final int k_BeltConveyorAddress = 8; // VictorSPX X
+ public static final int k_ShooterInAddress = 9; // VictorSPX X  
+ public static final int k_ShooterMotorAddress = 10; // VictorSPX X
+ public static final int k_liftMotorAddress = 11; // VictorSPX X
+ public static final int k_hookMotorAddress = 12; // VictorSPX X
 
-    // DIO addresses
-    public static final int k_BallTopDetector = 0;    
-    public static final int k_encoder1Ch1DIO = 1;
-    public static final int k_encoder1Ch2DIO = 2;
-    public static final int k_topDetector = 3;
-    public static final int k_bottomDetector = 4;
-    
+ // DIO addresses
+ public static final int k_BallTopDetector = 0;
+ public static final int k_encoder1Ch1DIO = 1;
+ public static final int k_encoder1Ch2DIO = 2;
+ public static final int k_topDetector = 3;
+ public static final int k_bottomDetector = 4;
 
-    // SPIO addresses
-    public static final SPI.Port k_gyroPort = SPI.Port.kOnboardCS0;
 
-    // USB addresses
-    public static final int k_xboxController = 0;
-    public static final int k_boxController = 1;
-    public static final boolean k_useBox = true; // set to true to use ALARM Box, false to use logitech
+ // SPIO addresses
+ public static final SPI.Port k_gyroPort = SPI.Port.kOnboardCS0;
 
-    // other constants
-    public static final int k_pulsePerRev = 20;
-    public static final int k_minRate = 50;
-    public static final boolean k_squareInputs = true;
+ // USB addresses
+ public static final int k_xboxController = 0;
+ public static final int k_boxController = 1;
+ public static final boolean k_useBox = true; // set to true to use ALARM Box, false to use logitech
 
-    // solenoid addresses on PCM
-    public static final int k_PCMModule = 1;
-    public static final int k_colorWheelDeploy = 0;
-    public static final int k_intakeDeploy = 1;
-    public static final int k_winchLock = 2;
+ // other constants
+ public static final int k_pulsePerRev = 20;
+ public static final int k_minRate = 50;
+ public static final boolean k_squareInputs = true;
 
-    // other PCM addresses planned but not used 
-    // public static final int k_colorWheelRetract = 1;    
-    // public static final int k_intakeRetract = 3;
-    // public static final int k_shiftUp = 4;
-    // public static final int k_shiftDown = 5;    
-    // public static final int k_winchUnlock = 7;
+ // solenoid addresses on PCM
+ public static final int k_PCMModule = 1;
+ public static final int k_colorWheelDeploy = 0;
+ public static final int k_intakeDeploy = 1;
+ public static final int k_winchLock = 2;
 
-    public static final I2C.Port k_colorSensorPort = I2C.Port.kOnboard;
+ // other PCM addresses planned but not used 
+ // public static final int k_colorWheelRetract = 1;    
+ // public static final int k_intakeRetract = 3;
+ // public static final int k_shiftUp = 4;
+ // public static final int k_shiftDown = 5;    
+ // public static final int k_winchUnlock = 7;
 
-    // shooter constants
-    public static final double k_shooterFreeRPS = 32000;     //39000
-    public static final double k_shooterTargetRPS = 18000;   //18000
-    public static final double k_shooterToleranceRPS = 500;  // 1000
-    public static final double kP = 2*(1/k_shooterTargetRPS);
-    public static final double kI = 0.01;
-    public static final double kD = 0;   
-    public static final double k_sVolts = 0.05;
-    public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;    
-    public static final double k_feederSpeed = -0.5;
-    public static final double k_conveyorSpeed = 0.6;
-    public static final double k_intakeSpeed = 0.5;
-    public static final int kEncoderCPR = 1024;
-    public static final double k_encoderDistancePerPulse =
-    // Distance units will be rotations
-    1.0 / (double) kEncoderCPR;
+ public static final I2C.Port k_colorSensorPort = I2C.Port.kOnboard;
+
+ // shooter constants
+ public static final double k_shooterFreeRPS = 32000; //39000
+ public static final double k_shooterTargetRPS = 18000; //18000
+ public static final double k_shooterToleranceRPS = 500; // 1000
+ public static final double kP = 2 * (1 / k_shooterTargetRPS);
+ public static final double kI = 0.01;
+ public static final double kD = 0;
+ public static final double k_sVolts = 0.05;
+ public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;
+ public static final double k_feederSpeed = -0.5;
+ public static final double k_conveyorSpeed = 0.6;
+ public static final double k_intakeSpeed = 0.5;
+ public static final int kEncoderCPR = 1024;
+ public static final double k_encoderDistancePerPulse =
+  // Distance units will be rotations
+  1.0 / (double) kEncoderCPR;
+ //auto
+ public static String k_Automode = "NONE";
 
 }

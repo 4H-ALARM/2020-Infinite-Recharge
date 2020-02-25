@@ -9,19 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ShooterPidSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class AutoCommand extends SequentialCommandGroup {
+public class AutoCommandDS extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   /**
    * Creates a new AutoCommand.
    */
-  public AutoCommand(DriveSubsystem subsystem, ShooterPidSubsystem shooter) {
+  public AutoCommandDS(DriveSubsystem subsystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShooterOn(shooter), new DriveStraight(subsystem).withTimeout(1), new FeedShooter(shooter));
+    super(new DriveStraight(subsystem).withTimeout(1));
   }
 }

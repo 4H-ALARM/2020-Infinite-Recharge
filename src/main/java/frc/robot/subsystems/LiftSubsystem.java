@@ -16,42 +16,42 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import static frc.robot.Constants.*;
 
 public class LiftSubsystem extends SubsystemBase {
-  private boolean m_topDetected = false;
-  private boolean m_bottomDetected = false;
-  private final DigitalInput m_topDetector = new DigitalInput(k_topDetector);
-  private final DigitalInput m_bottomDetector = new DigitalInput(k_bottomDetector);
-  // private final Solenoid m_gearShift = new Solenoid(k_shiftUp);
-  private final Solenoid m_winchLock = new Solenoid(k_PCMModule, k_winchLock);
-  private final WPI_VictorSPX m_liftMotor = new WPI_VictorSPX(k_liftMotorAddress);
-  /**
-   * Creates a new LiftSubsystem.
-   */
-  public LiftSubsystem() {
-    m_winchLock.set(true);
-  }
+ private boolean m_topDetected = false;
+ private boolean m_bottomDetected = false;
+ private final DigitalInput m_topDetector = new DigitalInput(k_topDetector);
+ private final DigitalInput m_bottomDetector = new DigitalInput(k_bottomDetector);
+ // private final Solenoid m_gearShift = new Solenoid(k_shiftUp);
+ private final Solenoid m_winchLock = new Solenoid(k_PCMModule, k_winchLock);
+ private final WPI_VictorSPX m_liftMotor = new WPI_VictorSPX(k_liftMotorAddress);
+ /**
+  * Creates a new LiftSubsystem.
+  */
+ public LiftSubsystem() {
+  m_winchLock.set(true);
+ }
 
-  @Override
-  public void periodic() {
-    m_topDetected = m_topDetector.get();
-    m_bottomDetected = m_bottomDetector.get();
-    // This method will be called once per scheduler run
+ @Override
+ public void periodic() {
+  m_topDetected = m_topDetector.get();
+  m_bottomDetected = m_bottomDetector.get();
+  // This method will be called once per scheduler run
 
-    updatedash();
-  }
-  public void SetSpeed(double Speed){     
-    m_liftMotor.set(Speed);
+  updatedash();
+ }
+ public void SetSpeed(double Speed) {
+  m_liftMotor.set(Speed);
 
-  }
-  public void gearshift (boolean high){
-      // m_gearShift.set(high);
-  }
-  public void winchLock (boolean high){
-    m_winchLock.set(high);
-  }
-  private void updatedash(){
-    SmartDashboard.putBoolean("Lift at Top", m_topDetected);
-    SmartDashboard.putBoolean("Lift at Bottom", m_bottomDetected);
-    SmartDashboard.putBoolean("Winch Locked", m_winchLock.get());
-    SmartDashboard.putNumber("Lift motor set", m_liftMotor.get());
-  }
+ }
+ public void gearshift(boolean high) {
+  // m_gearShift.set(high);
+ }
+ public void winchLock(boolean high) {
+  m_winchLock.set(high);
+ }
+ private void updatedash() {
+  SmartDashboard.putBoolean("Lift at Top", m_topDetected);
+  SmartDashboard.putBoolean("Lift at Bottom", m_bottomDetected);
+  SmartDashboard.putBoolean("Winch Locked", m_winchLock.get());
+  SmartDashboard.putNumber("Lift motor set", m_liftMotor.get());
+ }
 }
