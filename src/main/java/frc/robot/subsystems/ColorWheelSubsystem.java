@@ -155,7 +155,7 @@ public class ColorWheelSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
     SmartDashboard.putNumber("Color Transition count", m_colorTransitionCounter);
   }
-  public int getColorTransitionCount(){
+  public int getColorTransitionCount(){//change
     return m_colorTransitionCounter;
   }
   public void resetColorTransitionCount(){ 
