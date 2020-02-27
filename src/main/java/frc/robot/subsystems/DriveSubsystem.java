@@ -59,7 +59,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   private void updatedash(){
     // SmartDashboard.putNumber("gyro Measurement", m_gyro.getAngle());
-    SmartDashboard.putNumber("Sonar Reading", m_sonarReading);
   }
   
 }

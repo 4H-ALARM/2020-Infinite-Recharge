@@ -14,7 +14,9 @@ import frc.robot.subsystems.ShooterPidSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class AutoCommand extends SequentialCommandGroup {
+  private String m_name = "Drive and Shoot";
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  
 
   /**
    * Creates a new AutoCommand.
@@ -23,5 +25,9 @@ public class AutoCommand extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new ShooterOn(shooter), new DriveStraight(subsystem).withTimeout(1), new FeedShooter(shooter));
+  }
+
+  public String getName() {
+    return m_name;
   }
 }

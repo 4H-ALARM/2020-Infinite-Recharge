@@ -13,6 +13,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class AutoCommandDS extends SequentialCommandGroup {
+  private String m_name = "Drive Straight";
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   /**
@@ -23,4 +24,5 @@ public class AutoCommandDS extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(new DriveStraight(subsystem).withTimeout(1));
   }
+
 }

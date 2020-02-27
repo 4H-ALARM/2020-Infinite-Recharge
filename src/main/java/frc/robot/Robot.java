@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveStraight;
 import frc.robot.subsystems.DriveSubsystem;
@@ -23,7 +24,7 @@ import edu.wpi.first.cameraserver.CameraServer;
  */
 public class Robot extends TimedRobot {
 
- private AutoCommand m_autonomousCommand;
+ private SequentialCommandGroup m_autonomousCommand;
  private RobotContainer m_robotContainer;
 
  /**
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
   // ----------Set up Camera HD3000----------2 options//
   // 
   CameraServer.getInstance().startAutomaticCapture(); //OPT #1
+  CameraServer.getInstance().startAutomaticCapture();
   // OPT #2
   //   new Thread(() -> {
   //     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -95,9 +97,8 @@ public class Robot extends TimedRobot {
   */
  @Override
  public void autonomousInit() {
-  m_autonomousCommand = m_robotContainer.m_AutoCommand; // m_robotContainer.autonCommand();
-
-  // schedule the autonomous command (example)
+    m_autonomousCommand = m_robotContainer.getAutonomousSelection();
+  // schedule the autonomous command
   if (m_autonomousCommand != null) {
    m_autonomousCommand.schedule();
   }

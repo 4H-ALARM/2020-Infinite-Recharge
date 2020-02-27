@@ -49,8 +49,6 @@ public class LiftSubsystem extends SubsystemBase {
   m_winchLock.set(high);
  }
  private void updatedash() {
-  SmartDashboard.putBoolean("Lift at Top", m_topDetected);
-  SmartDashboard.putBoolean("Lift at Bottom", m_bottomDetected);
   SmartDashboard.putBoolean("Winch Locked", m_winchLock.get());
   SmartDashboard.putNumber("Lift motor set", m_liftMotor.get());
  }

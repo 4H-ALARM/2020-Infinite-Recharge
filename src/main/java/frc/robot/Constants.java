@@ -53,6 +53,7 @@ public final class Constants {
  public static final int k_pulsePerRev = 20;
  public static final int k_minRate = 50;
  public static final boolean k_squareInputs = true;
+ public static final int k_countFor3Turns = 25;
 
  // solenoid addresses on PCM
  public static final int k_PCMModule = 1;
@@ -71,7 +72,10 @@ public final class Constants {
 
  // shooter constants
  public static final double k_shooterFreeRPS = 32000; //39000
+ public static final double k_shooterTargetPIT = 1000;
+ public static final double k_shooterTargetLow = 17000;
  public static final double k_shooterTargetRPS = 18000; //18000
+ public static final double k_shooterTargetHigh = 19000;
  public static final double k_shooterToleranceRPS = 500; // 1000
  public static final double kP = 2 * (1 / k_shooterTargetRPS);
  public static final double kI = 0.01;

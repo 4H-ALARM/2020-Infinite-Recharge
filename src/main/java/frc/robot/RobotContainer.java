@@ -18,6 +18,7 @@ import frc.robot.commands.ColorWheelDeploy;
 import frc.robot.commands.ColorWheelDeployIn;
 import frc.robot.commands.ColorWheelSpinIn;
 import frc.robot.commands.ColorWheelStop;
+import frc.robot.commands.ColorWheelTurn3To5;
 import frc.robot.commands.ConveyorIn;
 import frc.robot.commands.ConveyorOut;
 import frc.robot.commands.AutoCommand;
@@ -51,6 +52,8 @@ import frc.robot.commands.IntakeOn;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.AutoCommand;
+import frc.robot.commands.AutoCommandDS;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 //import frc.robot.commands.AutonomousDrive;
 
 
@@ -66,7 +69,6 @@ import static frc.robot.Constants.*;
 public class RobotContainer {
  public static final AutoCommand AutoCommand = null;
  // The robot's subsystems here..
- private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
  private final ConveyorSubsystem m_conveyourSubsystem = new ConveyorSubsystem();
@@ -75,10 +77,11 @@ public class RobotContainer {
  private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
  private final ColorWheelSubsystem m_colorWheelSubsystem = new ColorWheelSubsystem();
 
- public final AutoCommand m_AutoCommand = new AutoCommand(m_driveSubsystem, m_shooterpid);
- //public final AutoCommand m_AutoCommand = new AutoCommandDS(m_driveSubsystem, m_shooterpid);
+ public  SequentialCommandGroup m_AutoCommand = null;
+ private final AutoCommand m_DriveAndShootAuto = new AutoCommand(m_driveSubsystem, m_shooterpid);
+ private final AutoCommandDS m_DriveStraightAuto = new AutoCommandDS(m_driveSubsystem);
 
- public String m_autoSelection = "NONE";
+ public String m_autoSelectionName = "NONE";
 
  // and commands are defined here...
  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -102,10 +105,16 @@ public class RobotContainer {
   */
  public RobotContainer() {
   // Configure the button bindings
-
   configureButtonBindings();
 
-  getAutonomousSelection();
+  // set up the Autonomous selector
+  m_AutoChooser.setDefaultOption("NONE", "NONE");
+  m_AutoChooser.addOption("DRIVE", m_DriveStraightAuto.getName());
+  m_AutoChooser.addOption("DRIVE+SHOOT", m_DriveAndShootAuto.getName());
+  SmartDashboard.putData("Autonomous Selection", m_AutoChooser);
+  // get the initial autonomous selection. 
+  // this will be updated again when auto init is called in the robot class
+  m_AutoCommand = getAutonomousSelection();
 
   m_colorWheelSubsystem.register();
   m_shooterpid.register();
@@ -121,7 +130,6 @@ public class RobotContainer {
   hookDriveCommand = new HookDriveCommand(m_hookSubsystem, () -> BoxController.getY());
   m_hookSubsystem.setDefaultCommand(hookDriveCommand);
 
-  //AutoDirveCommand = new AutonomousDrive(m_driveSubsystem);
  }
 
  /**
@@ -134,23 +142,12 @@ public class RobotContainer {
   setXboxButtons();
   // chooseController();  don't call as it does not do a valid selection  TODO fix if possible
   if (m_useBox) { // our control box
-   SmartDashboard.putString("Controler Selected", "ALARM BOX");
+  //  SmartDashboard.putString("Controler Selected", "ALARM BOX");
    setBoxButtons(); // or
   } else { // logitech
-   SmartDashboard.putString("Controler Selected", "Logitech");
+  //  SmartDashboard.putString("Controler Selected", "Logitech");
    setJoystickButtons();
   }
- }
-
-
- /**
-  * Use this to pass the autonomous command to the main {@link Robot} class.
-  *
-  * @return the command to run in autonomous
-  */
- public Command getAutonomousCommand() {
-
-  return null /*DriveForwards*/ ;
  }
 
  private void setXboxButtons() {
@@ -210,13 +207,13 @@ public class RobotContainer {
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ the god color wheel deploy
 
   new JoystickButton(BoxController, 12)
-   .whenPressed(new ColorWheelDeploy(m_colorWheelSubsystem));
-  // new JoystickButton(BoxController, 12)
-  //   .whenReleased(new ColorWheelDeployIn(m_colorWheelSubsystem));
-
-  new JoystickButton(BoxController, 10)
    .whenPressed(new ColorWheelSpinIn(m_colorWheelSubsystem));
-  new JoystickButton(BoxController, 10)
+  new JoystickButton(BoxController, 12)
+  .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
+
+  new JoystickButton(BoxController, 11)
+   .whenPressed(new ColorWheelTurn3To5(m_colorWheelSubsystem));
+  new JoystickButton(BoxController, 11)
    .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
 
  }
@@ -297,20 +294,22 @@ public class RobotContainer {
   }
  }
 
- private void getAutonomousSelection() {
-  m_AutoChooser.setDefaultOption("NONE", "NONE");
-  m_AutoChooser.addOption("DRIVE", "DRIVE");
-  m_AutoChooser.addOption("DRIVE+SHOOT", "DRIVE+SHOOT");
-  SmartDashboard.putData("Autonomous Selection", m_AutoChooser);
-
-
-  if (m_AutoChooser.getSelected() == "DRIVE") {
-   m_autoSelection = "DRIVE";
-  } else if (m_AutoChooser.getSelected() == "DRIVE+SHOOT") {
-   m_autoSelection = "DRIVE+SHOOT";
+ /**
+  * Use this to pass the autonomous command to the main {@link Robot} class.
+  *
+  * @return the command to run in autonomous
+  */
+ public SequentialCommandGroup getAutonomousSelection() {
+  if (m_AutoChooser.getSelected() == m_DriveStraightAuto.getName()) {
+   m_autoSelectionName = m_DriveStraightAuto.getName();
+   m_AutoCommand = m_DriveStraightAuto;
+  } else if (m_AutoChooser.getSelected() == m_DriveAndShootAuto.getName()) {
+    m_autoSelectionName = m_DriveAndShootAuto.getName();
+   m_AutoCommand = m_DriveAndShootAuto;
   } else {
-   m_autoSelection = "NONE";
+    m_autoSelectionName = "NONE";
+   m_AutoCommand = null;
   }
-  k_Automode = m_autoSelection;
+  return m_AutoCommand;
  }
 }

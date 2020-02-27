@@ -35,9 +35,11 @@ public class ColorWheelSubsystem extends SubsystemBase {
 
   private ColorMatchResult matchResult;
   private String m_targetColor = "Green";
-  private String m_ColorFound = "Unkown";
+  private String m_lastColorFound = "Unknown";
+  private String m_ColorFound = "Unknown";
   private boolean m_colorMatched = false;
   private String gameData;
+  private int m_colorTransitionCounter = 0;
 
   public final SendableChooser<String> m_colorChooser = new SendableChooser<>();
 
@@ -68,11 +70,20 @@ public class ColorWheelSubsystem extends SubsystemBase {
     // with the color chosen from the dashboard
     m_targetColor = getTargetFromDriverStation();
     checkForMatch();
+    checkForColorTransition();
     updatedash();
     }
    
   public void SetSpeed(double speed){
     if (m_ColorFound == m_targetColor) {
+      m_colorWheelMotor.set(0.0);
+    } else {
+      m_colorWheelMotor.set(speed);
+    }
+  }
+
+  public void SetSpeedToTurn(double speed){
+    if (m_colorTransitionCounter >= k_countFor3Turns) {
       m_colorWheelMotor.set(0.0);
     } else {
       m_colorWheelMotor.set(speed);
@@ -142,7 +153,19 @@ public class ColorWheelSubsystem extends SubsystemBase {
     SmartDashboard.putString("Color detected", m_ColorFound);
     SmartDashboard.putBoolean("Color matched", m_colorMatched);
     SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
-    SmartDashboard.putBoolean("Color wheel deployed", m_colorWheelDeploy.get());
+    SmartDashboard.putNumber("Color Transition count", m_colorTransitionCounter);
   }
+  public int getColorTransitionCount(){
+    return m_colorTransitionCounter;
+  }
+  public void resetColorTransitionCount(){ 
+    m_colorTransitionCounter = 0;
+  }
+  private void checkForColorTransition(){
+    if(m_lastColorFound != m_ColorFound){
+      m_colorTransitionCounter += 1;
+      m_lastColorFound = m_ColorFound;
+    }
+  } 
   
 }
