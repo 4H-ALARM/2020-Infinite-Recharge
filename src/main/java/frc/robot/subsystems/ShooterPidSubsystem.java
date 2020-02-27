@@ -74,11 +74,13 @@ public class ShooterPidSubsystem extends PIDSubsystem {
   } else {
    m_shooterGate.set(0.0);
   }
+  updatedash();
  }
 
  public void stopFeeder() {
   m_shooterGate.set(0);
   m_conveyorSubsystem.convayorSpeed(0);
+  updatedash();
  }
 
  public void setConveyor(ConveyorSubsystem conveyor) {

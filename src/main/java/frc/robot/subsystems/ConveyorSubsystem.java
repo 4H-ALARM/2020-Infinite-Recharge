@@ -33,6 +33,10 @@ public class ConveyorSubsystem extends SubsystemBase {
     BallConveryor.set(speed);
   }
 
+  public double getMotorSpeed() {
+    return BallConveryor.get();
+  }
+
   private void updatedash(){
     SmartDashboard.putNumber("Conveyor motor set", BallConveryor.get());
   }

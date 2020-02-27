@@ -79,5 +79,6 @@ public class IntakeSubsystem extends SubsystemBase {
  private void updatedash() {
   SmartDashboard.putBoolean("Intake Deployed", m_intakeDeployed);
   SmartDashboard.putNumber("Intake motor set", ballIntakeMotor.get());
+  SmartDashboard.putNumber("Conveyor motor set", m_conveyorSubsystem.getMotorSpeed());
  }
 }
