@@ -8,13 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.AutoCommand;
-import frc.robot.commands.DriveStraight;
-import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+
+import static frc.robot.Constants.*;
 
 /*
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
 
  private SequentialCommandGroup m_autonomousCommand;
  private RobotContainer m_robotContainer;
+ private final PowerDistributionPanel m_pdp = new PowerDistributionPanel(0);
 
  /**
   * This function is run when the robot is first started up and should be used for any
@@ -80,6 +81,8 @@ public class Robot extends TimedRobot {
   // and running subsystem periodic() methods.  This must be called from the robot's periodic
   // block in order for anything in the Command-based framework to work.
   CommandScheduler.getInstance().run();
+
+  // m_robotContainer.readPDP();
 
  }
 
@@ -142,4 +145,19 @@ public class Robot extends TimedRobot {
   */
  @Override
  public void testPeriodic() {}
+
+  public void readPDP() {
+  SmartDashboard.putNumber("Hook Current", m_pdp.getCurrent(k_hookMotorPDP));
+  SmartDashboard.putNumber("Lift Current", m_pdp.getCurrent(k_liftMotorPDP));
+  SmartDashboard.putNumber("Shooter Current", m_pdp.getCurrent(k_ShooterMotorPDP));
+  SmartDashboard.putNumber("Feed Current", m_pdp.getCurrent(k_ShooterInPDP));
+  SmartDashboard.putNumber("Conv Current", m_pdp.getCurrent(k_BeltConveyorPDP));
+  SmartDashboard.putNumber("Intake Current", m_pdp.getCurrent(k_ballIntakeMotorPDP));
+  SmartDashboard.putNumber("Color Current", m_pdp.getCurrent(k_ColorWheelMotorPDP));
+  SmartDashboard.putNumber("RR Current", m_pdp.getCurrent(k_rightRearDrivePDP));
+  SmartDashboard.putNumber("RF Current", m_pdp.getCurrent(k_rightFrontDrivePDP));
+  SmartDashboard.putNumber("LR Current", m_pdp.getCurrent(k_leftRearDrivePDP));
+  SmartDashboard.putNumber("LF Current", m_pdp.getCurrent(k_leftFrontDrivePDP));
+ }
+
 }

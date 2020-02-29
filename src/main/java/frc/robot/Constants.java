@@ -33,6 +33,19 @@ public final class Constants {
  public static final int k_liftMotorAddress = 11; // VictorSPX X
  public static final int k_hookMotorAddress = 12; // VictorSPX X
 
+ // PDP circuits
+ public static final int k_leftFrontDrivePDP = 15;
+ public static final int k_leftRearDrivePDP = 14;
+ public static final int k_rightFrontDrivePDP = 13;
+ public static final int k_rightRearDrivePDP = 12;
+ public static final int k_ColorWheelMotorPDP = 7;
+ public static final int k_ballIntakeMotorPDP = 6;
+ public static final int k_BeltConveyorPDP = 3;
+ public static final int k_ShooterInPDP = 4;
+ public static final int k_ShooterMotorPDP = 2;
+ public static final int k_liftMotorPDP = 1;
+ public static final int k_hookMotorPDP = 0;
+
  // DIO addresses
  public static final int k_BallTopDetector = 0;
  public static final int k_encoder1Ch1DIO = 1;
@@ -53,7 +66,7 @@ public final class Constants {
  public static final int k_pulsePerRev = 20;
  public static final int k_minRate = 50;
  public static final boolean k_squareInputs = true;
- public static final int k_countFor3Turns = 25;
+ public static final int k_countFor3Turns = 30;
 
  // solenoid addresses on PCM
  public static final int k_PCMModule = 1;
@@ -72,7 +85,7 @@ public final class Constants {
 
  // shooter constants
  public static final double k_shooterFreeRPS = 32000; //39000
- public static final double k_shooterTargetPIT = 1000;
+ public static final double k_shooterTargetPIT = 8000;
  public static final double k_shooterTargetLow = 17000;
  public static final double k_shooterTargetRPS = 18000; //18000
  public static final double k_shooterTargetHigh = 19000;
@@ -83,7 +96,7 @@ public final class Constants {
  public static final double k_sVolts = 0.05;
  public static final double k_vVoltSecondsPerRotation = 12.0 / k_shooterFreeRPS;
  public static final double k_feederSpeed = -0.5;
- public static final double k_conveyorSpeed = 0.6;
+ public static final double k_conveyorSpeed = .5;
  public static final double k_intakeSpeed = 0.5;
  public static final int kEncoderCPR = 1024;
  public static final double k_encoderDistancePerPulse =
@@ -91,5 +104,7 @@ public final class Constants {
   1.0 / (double) kEncoderCPR;
  //auto
  public static String k_Automode = "NONE";
+ //color wheel
+ public static final double k_colorWheelSpeed = .3;
 
 }

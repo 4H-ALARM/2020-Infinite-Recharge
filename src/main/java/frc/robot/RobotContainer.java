@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import frc.robot.commands.AutonomousDrive;
 import frc.robot.commands.ColorWheelDeploy;
 import frc.robot.commands.ColorWheelDeployIn;
 import frc.robot.commands.ColorWheelSpinIn;
@@ -25,8 +24,6 @@ import frc.robot.commands.AutoCommand;
 import frc.robot.commands.AutoCommandDS;
 import frc.robot.commands.ConveyorStop;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.DriveStraight;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeDeploy;
 import frc.robot.commands.winchLockOn;
 import frc.robot.commands.LifterDown;
@@ -39,23 +36,17 @@ import frc.robot.commands.StopFeedingShooter;
 import frc.robot.subsystems.ColorWheelSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.HookSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.ShooterPidSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeOn;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.AutoCommand;
-import frc.robot.commands.AutoCommandDS;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-//import frc.robot.commands.AutonomousDrive;
-
 
 import static frc.robot.Constants.*;
 
@@ -186,6 +177,8 @@ public class RobotContainer {
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
   new JoystickButton(BoxController, 9)
    .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
+  new JoystickButton(BoxController, 10)
+   .whenPressed(m_intakeSubsystem::toggleWithConvayor, m_intakeSubsystem);
 
   // new JoystickButton(BoxController, 3)
   //     .whenPressed(new IntakeOff(m_intakeSubsystem));
@@ -215,7 +208,6 @@ public class RobotContainer {
    .whenPressed(new ColorWheelTurn3To5(m_colorWheelSubsystem));
   new JoystickButton(BoxController, 11)
    .whenReleased(new ColorWheelStop(m_colorWheelSubsystem));
-
  }
 
  private void setJoystickButtons() {
@@ -247,6 +239,9 @@ public class RobotContainer {
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\ Intake
   new JoystickButton(BoxController, 6)
    .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
+
+  new JoystickButton(BoxController, 10)
+   .whenPressed(m_intakeSubsystem::toggleWithConvayor, m_intakeSubsystem);
 
 
   // new JoystickButton(BoxController, 6)
@@ -312,4 +307,6 @@ public class RobotContainer {
   }
   return m_AutoCommand;
  }
+
+
 }

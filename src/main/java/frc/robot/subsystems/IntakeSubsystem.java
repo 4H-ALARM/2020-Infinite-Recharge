@@ -33,15 +33,6 @@ public class IntakeSubsystem extends SubsystemBase {
   updatedash();
  }
 
- public void setSpeed(final double ballSpeed) {
-  ballIntakeMotor.set(-ballSpeed);
-  if (ballSpeed == 0.0) {
-   m_conveyorSubsystem.convayorSpeed(0.0);
-  } else {
-   m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
-  }
- }
-
  public void deploy() {
   IntakeDeploy.set(true);
   m_intakeDeployed = true;
@@ -75,6 +66,44 @@ public class IntakeSubsystem extends SubsystemBase {
   retract();
   m_intakeDeployed = false;
  }
+
+ public void setSpeed(final double ballSpeed) {
+    ballIntakeMotor.set(-ballSpeed);
+    if (ballSpeed == 0.0) {
+     //m_conveyorSubsystem.convayorSpeed(0.0);
+    } else {
+     //m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
+    }
+   }
+
+ public void toggleWithConvayor() {
+    if (m_intakeDeployed) {
+     disableWithConvayor();
+    } else {
+     enableWithConvayor();
+    }
+   }
+
+ private void enableWithConvayor() {
+    deploy();
+    setSpeedWithConveyor(k_intakeSpeed);
+    m_intakeDeployed = true;
+   }
+
+ private void disableWithConvayor() {
+    setSpeedWithConveyor(0.0);
+    retract();
+    m_intakeDeployed = false;
+   }
+
+public void setSpeedWithConveyor(final double ballSpeed) {
+    ballIntakeMotor.set(-ballSpeed);
+    if (ballSpeed == 0.0) {
+     m_conveyorSubsystem.convayorSpeed(0.0);
+    } else {
+     m_conveyorSubsystem.convayorSpeed(k_conveyorSpeed);
+    }
+   }
 
  private void updatedash() {
   SmartDashboard.putBoolean("Intake Deployed", m_intakeDeployed);
