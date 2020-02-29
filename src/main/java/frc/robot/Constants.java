@@ -105,6 +105,7 @@ public final class Constants {
  //auto
  public static String k_Automode = "NONE";
  public static final double k_autoDriveTime = 4.5;
+ public static final double k_autoShootTime = 3;
  //color wheel
  public static final double k_colorWheelSpeed = .3;
 

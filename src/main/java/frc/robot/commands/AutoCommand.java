@@ -25,7 +25,12 @@ public class AutoCommand extends SequentialCommandGroup {
   public AutoCommand(DriveSubsystem subsystem, ShooterPidSubsystem shooter) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShooterOn(shooter), new DriveStraight(subsystem).withTimeout(k_autoDriveTime), new FeedShooter(shooter).withTimeout(5));
+    super(
+     new ShooterOn(shooter),
+     new DriveStraight(subsystem).withTimeout(k_autoDriveTime),
+     new FeedShooter(shooter).withTimeout(k_autoShootTime),
+     new ShooterOff(shooter),
+     new StopFeedingShooter(shooter));
   }
 
   public String getName() {
