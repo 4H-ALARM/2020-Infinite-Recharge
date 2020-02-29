@@ -104,6 +104,7 @@ public final class Constants {
   1.0 / (double) kEncoderCPR;
  //auto
  public static String k_Automode = "NONE";
+ public static final double k_autoDriveTime = 4.5;
  //color wheel
  public static final double k_colorWheelSpeed = .3;
 

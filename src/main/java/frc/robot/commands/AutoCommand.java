@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
+import static frc.robot.Constants.*;
 import frc.robot.subsystems.ShooterPidSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,7 +25,7 @@ public class AutoCommand extends SequentialCommandGroup {
   public AutoCommand(DriveSubsystem subsystem, ShooterPidSubsystem shooter) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShooterOn(shooter), new DriveStraight(subsystem).withTimeout(1), new FeedShooter(shooter));
+    super(new ShooterOn(shooter), new DriveStraight(subsystem).withTimeout(k_autoDriveTime), new FeedShooter(shooter).withTimeout(5));
   }
 
   public String getName() {
