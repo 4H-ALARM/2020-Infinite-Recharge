@@ -37,6 +37,7 @@ public class ColorWheelSubsystem extends SubsystemBase {
   private String m_targetColor = "Green";
   private String m_lastColorFound = "Unknown";
   private String m_ColorFound = "Unknown";
+  private String m_ColorStop = "Unknown";
   private boolean m_colorMatched = false;
   private String gameData;
   private int m_colorTransitionCounter = 0;
@@ -129,19 +130,26 @@ public class ColorWheelSubsystem extends SubsystemBase {
   }
 
   private void checkForMatch() {
+    // The color we detect is 2 colors away from the field sensor
+    // as spin clockwise the color order is Yellow, Blue, Green, Red, Yellow, Blue, Green, Red
     if (matchResult.color == blueTargetColor) {
       m_ColorFound = "Blue";
+      m_ColorStop = "Red";
     } else if (matchResult.color == redTargetColor) {
       m_ColorFound = "Red";
+      m_ColorStop = "Blue";
     } else if (matchResult.color == greenTargetColor) {
       m_ColorFound = "Green";
+      m_ColorStop = "Yellow";
     } else if (matchResult.color == yellowTargetColor) {
       m_ColorFound = "Yellow";
+      m_ColorStop = "Green";
     } else {
-      m_ColorFound = "Unkown";
+      m_ColorFound = "Unknown";
+      m_ColorStop = "Unknown";
     }
 
-    if (m_ColorFound == m_targetColor) {
+    if (m_ColorStop == m_targetColor) {
       m_colorMatched = true;
     } else {
       m_colorMatched = false;
@@ -150,6 +158,7 @@ public class ColorWheelSubsystem extends SubsystemBase {
 
   private void updatedash(){    
     SmartDashboard.putString("Color target", m_targetColor);
+    SmartDashboard.putString("Color offest", m_ColorStop);
     SmartDashboard.putString("Color detected", m_ColorFound);
     SmartDashboard.putBoolean("Color matched", m_colorMatched);
     SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
