@@ -16,8 +16,8 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import static frc.robot.Constants.*;
 
 public class LiftSubsystem extends SubsystemBase {
- private boolean m_topDetected = false;
- private boolean m_bottomDetected = false;
+ // private boolean m_topDetected = false;
+ // private boolean m_bottomDetected = false;
  private final DigitalInput m_topDetector = new DigitalInput(k_topDetector);
  private final DigitalInput m_bottomDetector = new DigitalInput(k_bottomDetector);
  // private final Solenoid m_gearShift = new Solenoid(k_shiftUp);
@@ -32,8 +32,8 @@ public class LiftSubsystem extends SubsystemBase {
 
  @Override
  public void periodic() {
-  m_topDetected = m_topDetector.get();
-  m_bottomDetected = m_bottomDetector.get();
+  // m_topDetected = m_topDetector.get();
+  // m_bottomDetected = m_bottomDetector.get();
   // This method will be called once per scheduler run
 
   updatedash();
