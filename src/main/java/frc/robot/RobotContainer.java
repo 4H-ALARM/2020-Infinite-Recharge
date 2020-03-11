@@ -44,8 +44,10 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeOn;
+import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeOff;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.IntakeOffReverse;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static frc.robot.Constants.*;
@@ -179,6 +181,10 @@ public class RobotContainer {
    .whenPressed(m_intakeSubsystem::toggle, m_intakeSubsystem);
   new JoystickButton(BoxController, 10)
    .whenPressed(m_intakeSubsystem::toggleWithConvayor, m_intakeSubsystem);
+  new JoystickButton(BoxController, 2)
+   .whenPressed(new IntakeReverse(m_intakeSubsystem));
+   new JoystickButton(BoxController, 2)
+   .whenReleased(new IntakeOffReverse(m_intakeSubsystem));
 
   // new JoystickButton(BoxController, 3)
   //     .whenPressed(new IntakeOff(m_intakeSubsystem));

@@ -22,7 +22,7 @@ import com.revrobotics.ColorSensorV3;
 import static frc.robot.Constants.*;
 
 public class ColorWheelSubsystem extends SubsystemBase {
-  private final WPI_VictorSPX m_colorWheelMotor = new WPI_VictorSPX(k_ColorWheelMotorAddress);
+  //private final WPI_VictorSPX m_colorWheelMotor = new WPI_VictorSPX(k_ColorWheelMotorAddress);
   private final Solenoid m_colorWheelDeploy = new Solenoid(k_PCMModule, k_colorWheelDeploy);
 
   private final ColorSensorV3 colorSensor = new ColorSensorV3(k_colorSensorPort);
@@ -77,17 +77,17 @@ public class ColorWheelSubsystem extends SubsystemBase {
    
   public void SetSpeed(double speed){
     if (m_ColorFound == m_targetColor) {
-      m_colorWheelMotor.set(0.0);
+      //m_colorWheelMotor.set(0.0);
     } else {
-      m_colorWheelMotor.set(speed);
+     // m_colorWheelMotor.set(speed);
     }
   }
 
   public void SetSpeedToTurn(double speed){
     if (m_colorTransitionCounter >= k_countFor3Turns) {
-      m_colorWheelMotor.set(0.0);
+     // m_colorWheelMotor.set(0.0);
     } else {
-      m_colorWheelMotor.set(speed);
+    //  m_colorWheelMotor.set(speed);
     }
   }
 
@@ -161,7 +161,7 @@ public class ColorWheelSubsystem extends SubsystemBase {
     SmartDashboard.putString("Color offest", m_ColorStop);
     SmartDashboard.putString("Color detected", m_ColorFound);
     SmartDashboard.putBoolean("Color matched", m_colorMatched);
-    SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
+  //  SmartDashboard.putNumber("Color motor set", m_colorWheelMotor.get());
     SmartDashboard.putNumber("Color Transition count", m_colorTransitionCounter);
   }
   public int getColorTransitionCount(){//change

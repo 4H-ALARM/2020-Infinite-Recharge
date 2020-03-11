@@ -89,7 +89,7 @@ public final class Constants {
  public static final double k_shooterTargetLow = 17000;
  public static final double k_shooterTargetRPS = 18000; //18000
  public static final double k_shooterTargetHigh = 19000;
- public static final double k_shooterToleranceRPS = 500; // 1000
+ public static final double k_shooterToleranceRPS = 400; // 1000
  public static final double kP = 2 * (1 / k_shooterTargetRPS);
  public static final double kI = 0.01;
  public static final double kD = 0;
@@ -98,13 +98,14 @@ public final class Constants {
  public static final double k_feederSpeed = -0.5;
  public static final double k_conveyorSpeed = .5;
  public static final double k_intakeSpeed = 0.75;
+
  public static final int kEncoderCPR = 1024;
  public static final double k_encoderDistancePerPulse =
   // Distance units will be rotations
   1.0 / (double) kEncoderCPR;
  //auto
  public static String k_Automode = "NONE";
- public static final double k_autoDriveTime = 4.5;
+ public static final double k_autoDriveTime = 4.3;
  public static final double k_autoShootTime = 3;
  //color wheel
  public static final double k_colorWheelSpeed = .3;

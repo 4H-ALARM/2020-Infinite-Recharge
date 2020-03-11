@@ -17,7 +17,7 @@ import static frc.robot.Constants.*;
 public class IntakeSubsystem extends SubsystemBase {
  private final WPI_VictorSPX ballIntakeMotor = new WPI_VictorSPX(k_ballIntakeMotorAddress);
  private final Solenoid IntakeDeploy = new Solenoid(k_PCMModule, k_intakeDeploy);
- private boolean m_intakeDeployed = false;
+ public static boolean m_intakeDeployed = false;
  private ConveyorSubsystem m_conveyorSubsystem = null;
 
  /**
@@ -90,6 +90,11 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeDeployed = true;
    }
 
+private void enableWithConvayorBack() {
+   deploy();
+   setSpeedWithConveyor(-(k_intakeSpeed));
+   m_intakeDeployed = true;
+   }
  private void disableWithConvayor() {
     setSpeedWithConveyor(0.0);
     retract();
