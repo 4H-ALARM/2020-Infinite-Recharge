@@ -28,7 +28,7 @@ public class AutoCommand extends SequentialCommandGroup {
     super(
      new ShooterOn(shooter),
      new DriveStraight(subsystem).withTimeout(k_autoDriveTime),
-     new DriveBackwards(subsystem).withTimeout(.2),
+     // new DriveBackwards(subsystem).withTimeout(.2),
      new FeedShooter(shooter).withTimeout(k_autoShootTime),
      new ShooterOff(shooter),
      new StopFeedingShooter(shooter));
